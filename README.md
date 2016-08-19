@@ -1,5 +1,1 @@
-# 名片通
-二维码名片项目
-
-# 注意:
-1.未经允许请勿商用.
+# Android project common library.
