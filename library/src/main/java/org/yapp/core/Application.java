@@ -2,7 +2,6 @@ package org.yapp.core;
 
 import android.app.Activity;
 
-import org.yapp.utils.Log;
 import org.yapp.y;
 
 import java.util.Stack;
@@ -88,7 +87,6 @@ public abstract class Application extends android.app.Application{
     protected abstract void init();
 
     private void build() {
-        y.Core.init(this, true);
-        Log.d("App启动");
+        y.Core.init(this);
     }
 }

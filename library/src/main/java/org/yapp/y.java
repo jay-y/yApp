@@ -72,20 +72,6 @@ public class y {
             }
         }
 
-        /**
-         * init:(初始化). <br>
-         *
-         * @author ysj
-         * @param app
-         * @param debug
-         *            是否开启Log输出
-         * @since JDK 1.7 date: 2015-12-2 下午4:37:16 <br>
-         */
-        public static void init(Application app, boolean debug) {
-            init(app);
-            Core.debug = debug;
-        }
-
         public static void setTaskManager(TaskManager taskManager) {
             Core.mTaskManager = taskManager;
         }
