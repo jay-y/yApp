@@ -1,6 +1,7 @@
-# Android project common library.
+# About Project
+An android project common library
 
-## About me
+## About Me
 
 #### GitHub https://github.com/Jay-Y
 
