@@ -1,7 +1,5 @@
 # About Project
-
 An android project common library
-
 
 ## About Me
 
