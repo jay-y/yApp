@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 public @interface ContentInject {
     int value();
 
-    Class presenter();
+    Class<?> presenter();
 }

@@ -21,4 +21,6 @@ public interface IBaseView {
     void showLoading();
 
     void closeLoading();
+
+    boolean isLoading();
 }

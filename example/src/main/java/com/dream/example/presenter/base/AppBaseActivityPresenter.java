@@ -132,7 +132,7 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
 
     @Override
     public void onClear() {
-        Log.w("Do you need to release memory , Please override the onDestroy() method in " + this.getClass().getSimpleName() + ".");
+        Log.w("Do you need to release memory , Please override the onClear() method in " + this.getClass().getSimpleName() + ".");
     }
 
     @Override
@@ -245,7 +245,17 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
     @Override
     public void closeLoading() {
         if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
-            mLoadingDialog.hide();
+            mLoadingDialog.dismiss();
+            mLoadingDialog = null;
+        }
+    }
+
+    @Override
+    public boolean isLoading() {
+        if(null != mLoadingDialog){
+            return mLoadingDialog.isShowing();
+        }else{
+            return false;
         }
     }
 

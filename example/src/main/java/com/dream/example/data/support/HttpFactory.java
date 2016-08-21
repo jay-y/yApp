@@ -47,6 +47,7 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
  */
 public class HttpFactory {
     public static final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36";
 
     public static String HOST = AppConsts.ServerConfig.MAIN_HOST;
 
@@ -209,7 +210,10 @@ public class HttpFactory {
                 Toast.showMessageForCenterShort("当前网络状态不佳");
                 throw new RequestException("当前网络状态不佳");
             }
-            Request request = chain.request();
+            Request request = chain.request()
+                    .newBuilder()
+                    .header("User-Agent",USER_AGENT)
+                    .build();
             logForRequest(request);
             Response originalResponse = chain.proceed(request);
             return logForResponse(originalResponse);

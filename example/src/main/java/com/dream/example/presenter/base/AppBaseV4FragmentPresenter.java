@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dream.example.R;
+import com.dream.example.data.support.DataSupports;
+import com.dream.example.data.support.HttpFactory;
 import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.view.IAppBaseView;
 
@@ -31,9 +33,9 @@ public abstract class AppBaseV4FragmentPresenter<T extends AppBaseAppCompatActiv
 
     protected InputMethodManager mImm;
 
-    //    public DataSupports getDataSupports(){
-//        return HttpFactory.getMainDataSupports();
-//    }
+    public DataSupports getDataSupports() {
+        return HttpFactory.getMainDataSupports();
+    }
 
     /**
      * 设置标题
@@ -95,7 +97,7 @@ public abstract class AppBaseV4FragmentPresenter<T extends AppBaseAppCompatActiv
 
     @Override
     public void onClear() {
-        Log.w("Do you need to release memory , Please override the onDestroy() method in " + this.getClass().getSimpleName() + ".");
+        Log.w("Do you need to release memory , Please override the onClear() method in " + this.getClass().getSimpleName() + ".");
     }
 
     @Override
@@ -145,6 +147,11 @@ public abstract class AppBaseV4FragmentPresenter<T extends AppBaseAppCompatActiv
     @Override
     public void showLoading() {
         getContent().getPresenter().showLoading();
+    }
+
+    @Override
+    public boolean isLoading() {
+        return getContent().getPresenter().isLoading();
     }
 
     @Override

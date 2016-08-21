@@ -63,11 +63,13 @@ public class AppConsts {
      * Author： ysj
      */
     public static class ServerConfig{
-        // Main主机地址
+        // Main地址
         public static String MAIN_HOST = "http://mobile.safehy.com/";
         public static String MAIN_HOST_PRIMARY = "http://mobile.safehy.com";
-        // Gank主机地址
+        // Gank地址
         public static String GANK_HOST = "https://gank.io/api/";
+        // 163地址
+        public static String NEWS_HOST = "http://c.m.163.com/";
 
         // 安全中心
         public static final String WEBSITES_SECURITYCENTER = MAIN_HOST+"securityCenter";
@@ -77,40 +79,15 @@ public class AppConsts {
         public static final String WEBSITES_TERMSOFSERVICE = MAIN_HOST+"termsOfService";
 
         // 根据属性获取指定数量数据(GANK)
-        public static final String API_DATA_V0="data/{type}/{pagesize}/{page}";
+        public static final String API_GANK_DATA_V0="data/{type}/{pagesize}/{page}";
+
+        // http://c.m.163.com/nc/article/list/T1348654060988/0-10.html
+        public static final String API_NEWS_LIST = "nc/article/list/{id}/{pageNo}-{pageSize}.html";
 
         // 登录
         public static final String API_A_LOGIN = "a/login";
         // 登出
         public static final String API_A_LOGOUT = "a/logout";
-        // 个人中心
-        public static final String API_A_PERSONAL = "a/personal";
-        // 历史记录
-        public static final String API_A_SCAN_HISTORY = "a/scanHistory";
-        // 我的收藏
-        public static final String API_A_COLLECT = "a/myCollect";
-        // 活动列表
-        public static final String API_A_ACT_LIST = "a/activity/list";
-        // 修改头像
-        public static final String API_A_CHANGE_PHOTO = "a/changePhoto";
-        // 修改密码
-        public static final String API_A_CHANGE_PWD = "a/changePwd";
-        // 积分明细
-        public static final String API_A_SCORE_DETAIL = "a/scoreDetail";
-        // 取随机数
-        public static final String API_LOGINRANDOM = "loginRandom";
-        // 版本检测
-        public static final String API_VERSIONCHECK = "versionCheck";
-        // 获取指定栏位广告ID列表
-        public static final String API_QUERY_ADVERTISEMENT = "queryAdvertisement";
-        // 注册第一步
-        public static final String API_REGISTER_STEP1 = "register/step1";
-        // 注册第二步
-        public static final String API_REGISTER_STEP2 = "register/step2";
-        // 找回第一步
-        public static final String API_FORGET_STEP1 = "forgetPwd/step1";
-        // 找回第二步
-        public static final String API_FORGET_STEP2 = "forgetPwd/step2";
 
         // 密码加密的秘钥
         public static final byte[] KEY_BYTES = { 0x73 ,0X6D ,0X6B ,0X6C ,0X64 ,0X6F ,0X73 ,0X70 ,0X64 ,0X6F ,0X73 ,0X6C ,0X64 ,0X61 ,0X61 ,0X61 };

@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -15,24 +14,14 @@ import android.widget.TextView;
 
 import com.dream.example.App;
 import com.dream.example.R;
-import com.dream.example.data.BaseData;
 import com.dream.example.data.support.AppConsts;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
-import com.dream.example.utils.AESUtil;
-import com.dream.example.utils.JsonUtil;
-import com.dream.example.utils.ResponseFilter;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.ILoginView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Toast;
-
-import java.util.Map;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Description: LoginPresenter. <br>
@@ -224,85 +213,5 @@ public class LoginPresenter extends
         SPUtil.put(getContent(), AppConsts._PASSWD, mPasswordView.getText().toString());
         Toast.showMessageForButtomShort("登陆成功");
         getContent().finish();
-    }
-
-    private void login(final String loginId, final String password, final String deviceId, final String versionNo) {
-        clientPlatform = "2";
-        clientInfo = android.os.Build.MODEL;
-        iosServiceToken = "";
-        getDataSupports().getLoginRandom()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseData>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showProgress(false);
-                        showError(ResponseFilter.onError(e));
-                    }
-
-                    @Override
-                    public void onNext(BaseData result) {
-                        result = ResponseFilter.onSuccess(result);
-                        String randomCode = (String) ((Map<String, Object>) result.data).get("randomCode");
-                        String content = randomCode + password;
-                        byte[] enc = AESUtil.encrypt(content.getBytes(),
-                                AppConsts.ServerConfig.KEY_BYTES);
-                        getDataSupports().login(loginId, Base64.encodeToString(enc,
-                                Base64.DEFAULT), versionNo, deviceId, clientInfo, clientPlatform, iosServiceToken)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<BaseData>() {
-                                    @Override
-                                    public void onCompleted() {
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        showProgress(false);
-                                        showError(ResponseFilter.onError(e));
-                                    }
-
-                                    @Override
-                                    public void onNext(BaseData result) {
-                                        result = ResponseFilter.onSuccess(result);
-                                        Map<String, Object> data = (Map<String, Object>) result.data;
-                                        App.getClient().setUsername(loginId);
-                                        App.getClient().setPassword(password);
-                                        App.getClient().setSessionId((String) data.get(AppConsts._SESSIONID));
-                                        App.getClient().setName((String) data.get("nickname"));
-                                        getDataSupports().getPersonal()
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(new Subscriber<BaseData>() {
-                                                    @Override
-                                                    public void onCompleted() {
-                                                        loginSuccess();
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Throwable e) {
-                                                        showProgress(false);
-                                                        showError(ResponseFilter.onError(e));
-                                                    }
-
-                                                    @Override
-                                                    public void onNext(BaseData result) {
-                                                        result = ResponseFilter.onSuccess(result);
-                                                        App.getClient().setStatus(AppConsts.AppConfig.STATUS_LOGIN_TRUE);
-                                                        String userInfo = null != result.data ? JsonUtil.toJson(result.data) : "";
-                                                        App.getClient()
-                                                                .setUserInfo(userInfo);
-//                                                        ((MyV4Fragment) FragmentFactory.getInstance()
-//                                                                .getV4Fragment(R.string.fragment_my)).refresh(userInfo);
-                                                    }
-                                                });
-                                    }
-                                });
-                    }
-                });
     }
 }

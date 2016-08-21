@@ -1,33 +1,51 @@
 package com.dream.example.view;
 
-import java.util.List;
+import android.support.annotation.CheckResult;
 
 /**
  * Description: ISwipeRefreshView. <br>
  * Date: 2016/3/14 18:36 <br>
  * Author: ysj
  */
-public interface ISwipeRefreshView<T> extends IAppBaseView {
+public interface ISwipeRefreshView extends IAppBaseView {
 
     void loadDataFinish();
 
     void showEmpty();
+
+    /**
+     * the method of get data
+     */
+    void onRefreshStarted();
+
+    /**
+     * check data status
+     *
+     * @return return true indicate it should load data really else indicate don't refresh
+     */
+    boolean prepareRefresh();
 
     void showRefresh();
 
     void hideRefresh();
 
     /**
-     * load data successfully
-     * @param data
+     * check refresh layout is refreshing
+     *
+     * @return if the refresh layout is refreshing return true else return false
      */
-    void fillData(List<T> data);
+    @CheckResult
+    boolean isRefreshing();
 
     /**
-     * append data to history list(load more)
-     * @param data
+     * load data
      */
-    void appendData(List<T> data);
+    void loadData();
+
+    /**
+     * load more data to history list(load more)
+     */
+    void loadMoreData();
 
     /**
      * no more data for show and this condition is hard to appear,it need you scroll main view long time

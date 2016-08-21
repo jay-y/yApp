@@ -17,7 +17,7 @@ import org.yapp.y;
  */
 public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F extends BaseV4Fragment, A extends Application>
         extends BasePresenter<T, A> implements BaseFragmentPresenterApi<F> {
-    private F mFragment;
+    protected F mFragment;
 
     /**
      * 构建

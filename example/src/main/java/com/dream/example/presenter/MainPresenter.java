@@ -24,7 +24,9 @@ import com.dream.example.R;
 import com.dream.example.data.support.AppConsts;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.DebugActivity;
+import com.dream.example.ui.activity.SplashActivity;
 import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
+import com.dream.example.ui.fragment.NewsV4Fragment;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.IMainView;
 
@@ -74,7 +76,7 @@ public class MainPresenter extends
     public void onInit() {
         if (SPUtil.get(getContent(), AppConsts._ERROR_CODE, 0) == 0) {
             FragmentFactory.releaseInstance();
-//            goThenKill(SplashActivity.class);
+            goThenKill(SplashActivity.class);
             return;
         }
         SPUtil.put(getContent(), AppConsts._ERROR_CODE, 0);
@@ -89,6 +91,8 @@ public class MainPresenter extends
 //        }
 //        mFactory.registerFragment(R.string.fragment_contacts, ContactsV4Fragment.newInstance());
 //        mFactory.registerFragment(R.string.fragment_my, MyV4Fragment.newInstance());
+//        mFactory.registerFragment(R.string.fragment_contacts, TemplateV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_my, NewsV4Fragment.newInstance());
         if (mFactory.getCount() <= 0) return;
         mFragmentList = new ArrayList<>();
         mSelectList = new ArrayList<>();

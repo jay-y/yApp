@@ -269,9 +269,9 @@ public class UserInfo extends DataEntity<UserInfo> implements Parcelable, Compar
         company = in.readString();
         url = in.readString();
         address = in.readString();
-        qqList = in.readArrayList(TemplateList.class.getClassLoader());
-        phoneList = in.readArrayList(TemplateList.class.getClassLoader());
-        emailList = in.readArrayList(TemplateList.class.getClassLoader());
+        qqList = in.readArrayList(ArrayList.class.getClassLoader());
+        phoneList = in.readArrayList(ArrayList.class.getClassLoader());
+        emailList = in.readArrayList(ArrayList.class.getClassLoader());
         sortKey = in.readString();
         nameSimplePy = in.readString();
         nameFullPy = in.readString();
