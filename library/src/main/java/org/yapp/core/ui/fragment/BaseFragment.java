@@ -1,19 +1,17 @@
 package org.yapp.core.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.yapp.core.Application;
 import org.yapp.core.presenter.BasePresenter;
-import org.yapp.core.ui.abase.BaseFragmentApi;
-import org.yapp.view.ViewInjector;
-import org.yapp.y;
+import org.yapp.core.ui.abase.BasePartsApi;
+import org.yapp.core.ui.inject.annotation.ContentInject;
+import org.yapp.ex.ApplicationException;
+import org.yapp.utils.Log;
 
 /**
  * ClassName: BaseFragment <br> 
@@ -25,8 +23,44 @@ import org.yapp.y;
  * @since JDK 1.7
  */
 @SuppressLint("NewApi")
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements BaseFragmentApi{
-	protected Application app;
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements BasePartsApi {
+	/**
+	 * the presenter of this Activity
+	 */
+	protected P mPresenter;
+
+	public P getPresenter() {
+		return mPresenter;
+	}
+
+	/**
+	 * init presenter
+	 */
+	@Override
+	public void initPresenter(){
+		try {
+			Class<?> cls = Class.forName(mPresenter.getClass().getName());
+			mPresenter = (P)cls.newInstance();
+			if (null == mPresenter) {
+				throw new ApplicationException("Do you need to init mPresenter in " + this.getClass().getSimpleName() + " initPresenter() method.");
+			}
+		} catch (Exception e) {
+			Log.e(e.getMessage(), e);
+			throw new ApplicationException("Presenter mapping failure.");
+		}
+	}
+
+	@Override
+	public int getLayoutId() {
+		Class<?> clazz = this.getClass();
+		ContentInject inject = clazz.getAnnotation(ContentInject.class);
+		try {
+			return inject.value();
+		}catch (Exception e){
+			Log.e(e.getMessage(),e);
+			throw new ApplicationException("Please setting id of "+clazz.getSimpleName()+" by @ViewInject.");
+		}
+	}
 
 	/**
 	 * Fragment创建UI
@@ -42,159 +76,15 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		init();
+		initPresenter();
+		mPresenter.onBuild(getActivity());
+		mPresenter.onInit();
 	}
 
 	@Override
 	public void onDestroyView() {
-		app = null;
-		onClear();
+		mPresenter.onDestroy();
+		mPresenter = null;
 		super.onDestroyView();
-	}
-
-	/**
-	 * startActivity
-	 *
-	 * @param clazz
-	 */
-	protected void go(Class<?> clazz) {
-		Intent intent = new Intent(getActivity(), clazz);
-		startActivity(intent);
-	}
-
-	/**
-	 * startActivity with bundle
-	 *
-	 * @param clazz
-	 * @param bundle
-	 */
-	protected void go(Class<?> clazz, Bundle bundle) {
-		Intent intent = new Intent(getActivity(), clazz);
-		if (null != bundle) {
-			intent.putExtras(bundle);
-		}
-		startActivity(intent);
-	}
-
-	/**
-	 * startActivity with bundle and delayed
-	 *
-	 * @param clazz 需要跳转的Activity
-	 * @param bundle 携带数据
-	 * @param delayed 延迟加载时间
-	 */
-	protected void go(Class<?> clazz, Bundle bundle,int delayed) {
-		final Intent intent = new Intent(getActivity(), clazz);
-		if(bundle!=null) intent.putExtras(bundle);
-		y.task().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				startActivity(intent);
-			}
-		}, delayed * 1000);
-	}
-
-	/**
-	 * startActivity then finish
-	 *
-	 * @param clazz
-	 */
-	protected void goThenKill(Class<?> clazz) {
-		Intent intent = new Intent(getActivity(), clazz);
-		startActivity(intent);
-		getActivity().finish();
-	}
-
-	/**
-	 * startActivity with bundle then finish
-	 *
-	 * @param clazz
-	 * @param bundle
-	 */
-	protected void goThenKill(Class<?> clazz, Bundle bundle) {
-		Intent intent = new Intent(getActivity(), clazz);
-		if (null != bundle) {
-			intent.putExtras(bundle);
-		}
-		startActivity(intent);
-		getActivity().finish();
-	}
-
-	/**
-	 * startActivity with bundle and delayed then finish
-	 *
-	 * @param clazz 需要跳转的Activity
-	 * @param bundle 携带数据
-	 * @param delayed 延迟加载时间
-	 */
-	protected void goThenKill(Class<?> clazz, Bundle bundle,int delayed) {
-		final Activity parent = getActivity();
-		final Intent intent = new Intent(parent, clazz);
-		if(bundle!=null) intent.putExtras(bundle);
-		y.task().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				startActivity(intent);
-				parent.finish();
-			}
-		}, delayed * 1000);
-	}
-
-	/**
-	 * startActivityForResult
-	 *
-	 * @param clazz
-	 * @param requestCode
-	 */
-	protected void goForResult(Class<?> clazz, int requestCode) {
-		Intent intent = new Intent(getActivity(), clazz);
-		startActivityForResult(intent, requestCode);
-	}
-
-	/**
-	 * startActivityForResult with bundle
-	 *
-	 * @param clazz
-	 * @param requestCode
-	 * @param bundle
-	 */
-	protected void goForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-		Intent intent = new Intent(getActivity(), clazz);
-		if (null != bundle) {
-			intent.putExtras(bundle);
-		}
-		startActivityForResult(intent, requestCode);
-	}
-
-	/**
-	 * startActivityForResult with bundle and delayed
-	 *
-	 * @param clazz 需要跳转的Activity
-	 * @param bundle 携带数据
-	 * @param delayed 延迟加载时间
-	 */
-	protected void goForResult(Class<?> clazz,final int requestCode,Bundle bundle,int delayed) {
-		final Intent intent = new Intent(getActivity(), clazz);
-		if(bundle!=null) intent.putExtras(bundle);
-		y.task().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				startActivityForResult(intent, requestCode);
-			}
-		}, delayed * 1000);
-	}
-
-	/**
-	 * init:(初始化). <br>
-	 *
-	 * @author ysj
-	 * @since JDK 1.7
-	 * date: 2015-12-13 下午10:49:04 <br>
-	 */
-	private void init(){
-		if(app == null)app = (Application) getActivity().getApplication();
-		ViewInjector.inject(this);
-		onBuild();
-		onInit();
 	}
 }

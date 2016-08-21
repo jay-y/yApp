@@ -8,9 +8,11 @@ import org.yapp.utils.Callback;
  * Author: ysj
  */
 public interface IBaseView {
-    void showDialog(String msg);
+    void onInit();
 
-    void showDialog(String title, String msg);
+    void showMsg(String msg);
+
+    void showError(Throwable throwable);
 
     void showDialog(String title, String msg, Callback.DialogCallback callback);
 

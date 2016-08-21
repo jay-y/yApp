@@ -2,16 +2,16 @@ package org.yapp.core.ui.adapter;
 
 import android.view.View;
 
-import org.yapp.view.ViewInjector;
+import org.yapp.core.ui.inject.ViewInjector;
 
 /**
  * Description: BaseViewHolder. <br>
  * Date: 2016/4/1 15:05 <br>
  * Author: ysj
  */
-public class BaseViewHolder{
+public class BaseViewHolder {
 
     public BaseViewHolder(View itemView) {
-        ViewInjector.inject(itemView,this);
+        ViewInjector.inject(itemView, this);
     }
 }

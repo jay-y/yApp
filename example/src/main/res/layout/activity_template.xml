@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <!-- 顶部菜单/标题栏 -->
+    <include
+        layout="@layout/model_toolbar"/>
+    
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/template_btn_ok"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/default_button_selector"
+            android:text="@string/action_ok"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+    
+	<!-- 底部菜单 -->
+</LinearLayout>

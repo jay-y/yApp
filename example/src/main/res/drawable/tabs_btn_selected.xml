@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 绘制标题蓝色的矩形 -->
+	<item>
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/blue" />
+        </shape>
+    </item>
+	<!-- 用于遮掉部分蓝色色，只留最下边2dp高的蓝色矩形 -->
+    <item android:top="2dp">
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+</layer-list>
