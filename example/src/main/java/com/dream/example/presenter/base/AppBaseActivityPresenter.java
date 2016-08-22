@@ -3,12 +3,16 @@ package com.dream.example.presenter.base;
 import android.content.Context;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.dream.example.App;
 import com.dream.example.R;
 import com.dream.example.data.support.DataSupports;
 import com.dream.example.data.support.HttpFactory;
@@ -16,7 +20,6 @@ import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.ui.widget.LoadingDialog;
 import com.dream.example.view.IAppBaseView;
 
-import org.yapp.core.Application;
 import org.yapp.core.presenter.BaseActivityPresenter;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Callback;
@@ -28,8 +31,7 @@ import org.yapp.utils.Toast;
  * Date: 2016/3/17 10:32 <br>
  * Author: ysj
  */
-public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivity, A extends Application>
-        extends BaseActivityPresenter<T, A> implements IAppBaseView {
+public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<AppBaseAppCompatActivity, App> implements IAppBaseView {
     @ViewInject(R.id.toolbar)
     protected Toolbar mToolbar;
     @ViewInject(R.id.toolbar_title)
@@ -37,6 +39,7 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
 
     protected InputMethodManager mImm;
     protected LoadingDialog mLoadingDialog;
+    protected MaterialDialog mMaterialDialog;
 
     public Menu mMenu;
     public ActionBarDrawerToggle mToggle;
@@ -56,7 +59,7 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
     public boolean onOptionsItemSelected(MenuItem item) {
         if (null != this.mToggle && this.mToggle.onOptionsItemSelected(item)) {
             return true;
-        } else {
+        }else{
             if (android.R.id.home == item.getItemId()) {
                 getContent().onBackPressed();
             }
@@ -166,7 +169,44 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
      * @param callback
      */
     @Override
-    public void showDialog(String msg, String title, Callback.DialogCallback callback) {
+    public void showDialog(String msg, String title,final Callback.DialogCallback callback) {
+        if (null == mMaterialDialog) {
+            mMaterialDialog = new MaterialDialog.Builder(getContent())
+                    .cancelable(true)
+                    .title(TextUtils.isEmpty(title) ? getContent().getString(R.string.app_name) : title)
+                    .content(TextUtils.isEmpty(msg) ? "" : msg)
+                    .positiveText(R.string.action_ok)
+                    .negativeText(R.string.action_cancle)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            if (null != callback) callback.onPositive();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(MaterialDialog dialog, DialogAction which) {
+                            if (null != callback) callback.onNegative();
+                        }
+                    })
+                    .build();
+        } else {
+            mMaterialDialog.setTitle(TextUtils.isEmpty(title) ? getContent().getString(R.string.app_name) : title);
+            mMaterialDialog.setContent(TextUtils.isEmpty(msg) ? "" : msg);
+            mMaterialDialog.getBuilder().onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(MaterialDialog dialog, DialogAction which) {
+                    if (null != callback) callback.onPositive();
+                }
+            });
+            mMaterialDialog.getBuilder().onNegative(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(MaterialDialog dialog, DialogAction which) {
+                    if (null != callback) callback.onNegative();
+                }
+            });
+        }
+        mMaterialDialog.show();
     }
 
     public void showDialog(String msg, String title) {
@@ -179,60 +219,10 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
 
     @Override
     public void closeDialog() {
+        if (null != mMaterialDialog) {
+            mMaterialDialog.dismiss();
+        }
     }
-
-//    /**
-//     * 弹出Dialog
-//     *
-//     * @param title
-//     * @param msg
-//     * @param callback
-//     */
-//    public void showDialog(String title, String msg, final Callback.DialogCallback callback) {
-//        if (null == mMaterialDialog) {
-//            mMaterialDialog = new MaterialDialog.Builder(this)
-//                    .cancelable(true)
-//                    .title(TextUtils.isEmpty(title) ? getString(R.string.app_name) : title)
-//                    .content(TextUtils.isEmpty(msg) ? "" : msg)
-//                    .positiveText(R.string.action_ok)
-//                    .negativeText(R.string.action_cancle)
-//                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-//                        @Override
-//                        public void onClick(MaterialDialog dialog, DialogAction which) {
-//                            if (null != callback) callback.onPositive();
-//                        }
-//                    })
-//                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-//                        @Override
-//                        public void onClick(MaterialDialog dialog, DialogAction which) {
-//                            if (null != callback) callback.onNegative();
-//                        }
-//                    })
-//                    .build();
-//        } else {
-//            mMaterialDialog.setTitle(TextUtils.isEmpty(title) ? getString(R.string.app_name) : title);
-//            mMaterialDialog.setContent(TextUtils.isEmpty(msg) ? "" : msg);
-//            mMaterialDialog.getBuilder().onPositive(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(MaterialDialog dialog, DialogAction which) {
-//                    if (null != callback) callback.onPositive();
-//                }
-//            });
-//            mMaterialDialog.getBuilder().onNegative(new MaterialDialog.SingleButtonCallback() {
-//                @Override
-//                public void onClick(MaterialDialog dialog, DialogAction which) {
-//                    if (null != callback) callback.onNegative();
-//                }
-//            });
-//        }
-//        mMaterialDialog.show();
-//    }
-//
-//    public void closeDialog() {
-//        if (null != mMaterialDialog) {
-//            mMaterialDialog.dismiss();
-//        }
-//    }
 
     @Override
     public void showLoading() {
@@ -252,9 +242,9 @@ public abstract class AppBaseActivityPresenter<T extends AppBaseAppCompatActivit
 
     @Override
     public boolean isLoading() {
-        if(null != mLoadingDialog){
+        if (null != mLoadingDialog) {
             return mLoadingDialog.isShowing();
-        }else{
+        } else {
             return false;
         }
     }

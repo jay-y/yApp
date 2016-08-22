@@ -24,7 +24,7 @@ import org.yapp.utils.SignalUtil;
  * Date: 2016/4/8 17:41 <br>
  * Author: ysj
  */
-public class SplashPresenter extends AppBaseActivityPresenter<AppBaseAppCompatActivity, App> implements ISplashView {
+public class SplashPresenter extends AppBaseActivityPresenter implements ISplashView {
     @ViewInject(R.id.splash_img_bg)
     private ImageView mImgBg;
 

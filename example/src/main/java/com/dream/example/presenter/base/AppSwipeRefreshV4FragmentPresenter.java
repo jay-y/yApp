@@ -19,7 +19,7 @@ import org.yapp.y;
  * Author: ysj
  */
 public abstract class AppSwipeRefreshV4FragmentPresenter extends
-        AppBaseV4FragmentPresenter<AppBaseAppCompatActivity, AppBaseV4Fragment, App> implements ISwipeRefreshView {
+        AppBaseV4FragmentPresenter implements ISwipeRefreshView {
     @ViewInject(R.id.swipe_refresh_layout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 

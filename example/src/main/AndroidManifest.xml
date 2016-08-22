@@ -60,6 +60,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- DEBUG -->
+        <activity
+            android:name=".ui.activity.DebugActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+
         <!-- 主界面 -->
         <activity
             android:name=".ui.activity.MainActivity"
@@ -72,11 +78,11 @@
             <!-- 引导页 -->
         </activity>
 
-        <!-- DEBUG -->
+        <!-- 图片详情 -->
         <activity
-            android:name=".ui.activity.DebugActivity"
+            android:name=".ui.activity.ImageDetailActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

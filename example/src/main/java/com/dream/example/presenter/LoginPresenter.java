@@ -29,7 +29,7 @@ import org.yapp.utils.Toast;
  * Author: ysj
  */
 public class LoginPresenter extends
-        AppBaseActivityPresenter<AppBaseAppCompatActivity, App> implements ILoginView, View.OnClickListener {
+        AppBaseActivityPresenter implements ILoginView, View.OnClickListener {
 
     @ViewInject(R.id.login_uname)
     private AutoCompleteTextView mUnameView;

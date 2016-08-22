@@ -4,9 +4,7 @@ import android.content.Context;
 import android.support.annotation.CheckResult;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.dream.example.App;
 import com.dream.example.R;
-import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.view.ISwipeRefreshView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
@@ -17,8 +15,7 @@ import org.yapp.y;
  * Date: 2016/08/17 16:59 <br>
  * Author: ysj
  */
-public abstract class AppSwipeRefreshActivityPresenter extends
-        AppBaseActivityPresenter<AppBaseAppCompatActivity, App> implements ISwipeRefreshView {
+public abstract class AppSwipeRefreshActivityPresenter extends AppBaseActivityPresenter implements ISwipeRefreshView {
     @ViewInject(R.id.swipe_refresh_layout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 

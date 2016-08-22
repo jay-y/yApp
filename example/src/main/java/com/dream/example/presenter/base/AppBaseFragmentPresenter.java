@@ -6,15 +6,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dream.example.App;
 import com.dream.example.R;
 import com.dream.example.data.support.DataSupports;
 import com.dream.example.data.support.HttpFactory;
 import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
+import com.dream.example.ui.fragment.base.AppBaseFragment;
 import com.dream.example.view.IAppBaseView;
 
-import org.yapp.core.Application;
 import org.yapp.core.presenter.BaseFragmentPresenter;
-import org.yapp.core.ui.fragment.BaseFragment;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
@@ -24,8 +24,7 @@ import org.yapp.utils.Log;
  * Date: 2016/3/17 10:32 <br>
  * Author: ysj
  */
-public abstract class AppBaseFragmentPresenter<T extends AppBaseAppCompatActivity, F extends BaseFragment, A extends Application>
-        extends BaseFragmentPresenter<T, F, A> implements IAppBaseView {
+public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<AppBaseAppCompatActivity, AppBaseFragment, App> implements IAppBaseView {
     @ViewInject(R.id.toolbar)
     protected Toolbar mToolbar;
     @ViewInject(R.id.toolbar_title)
@@ -138,7 +137,7 @@ public abstract class AppBaseFragmentPresenter<T extends AppBaseAppCompatActivit
     }
 
     @Override
-    public void onBuild(Context context, F fragment) {
+    public void onBuild(Context context, AppBaseFragment fragment) {
         super.onBuild(context, fragment);
         initToolBar();
         mImm = (InputMethodManager) getContent().getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -33,7 +33,7 @@ import java.util.List;
  * Author: ysj
  */
 public class GuidePresenter extends
-        AppBaseActivityPresenter<AppBaseAppCompatActivity, App> implements IGuideView {
+        AppBaseActivityPresenter implements IGuideView {
 
     @ViewInject(R.id.guide_pager)
     private ViewPager mViewPager;

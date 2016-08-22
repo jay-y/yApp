@@ -11,11 +11,11 @@ import com.dream.example.data.support.DataSupports;
 import com.dream.example.data.support.HttpFactory;
 import com.dream.example.presenter.base.AppSwipeRefreshV4FragmentPresenter;
 import com.dream.example.ui.adapter.NewsAdapter;
+import com.dream.example.utils.IntentUtil;
 import com.dream.example.utils.ResponseFilter;
 import com.dream.example.view.INewsView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
-import org.yapp.utils.Log;
 import org.yapp.y;
 
 import java.util.ArrayList;
@@ -32,8 +32,7 @@ import rx.schedulers.Schedulers;
  * Date: 2016/08/17 16:59 <br>
  * Author: ysj
  */
-public class NewsV4FPresenter extends
-        AppSwipeRefreshV4FragmentPresenter implements INewsView, NewsAdapter.IClickItem {
+public class NewsV4FPresenter extends AppSwipeRefreshV4FragmentPresenter implements INewsView, NewsAdapter.IClickItem {
     /**
      * the count of the size of one request
      */
@@ -69,9 +68,6 @@ public class NewsV4FPresenter extends
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isBottom =
                         layoutManager.findLastCompletelyVisibleItemPosition() >= mAdapter.getItemCount() - 2;
-                Log.d("!isLoading:"+(!isLoading()));
-                Log.d("isBottom:"+(isBottom));
-                Log.d("mHasMoreData:"+(mHasMoreData));
                 if (!isLoading()
                         && isBottom
                         && mHasMoreData) {
@@ -98,7 +94,7 @@ public class NewsV4FPresenter extends
 
     @Override
     public void onClickItem(Map<String, Object> entity, View view) {
-
+        IntentUtil.gotoImageDetailActivity(getContent(), (String) entity.get("imgsrc"));
     }
 
     @Override

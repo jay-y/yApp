@@ -97,7 +97,6 @@ public class FragmentFactory {
      */
     public void registerFragment(int code,Object fragment){
         synchronized (count){
-            Log.d("Fragment register count:"+count);
             if(REGISTER_ids.containsValue(code))
                 throw new RuntimeException("Fragment already registered");
             REGISTER_ids.put(count,code);
@@ -108,6 +107,7 @@ public class FragmentFactory {
                 REGISTERV4.put(code, (android.support.v4.app.Fragment) fragment);
                 count++;
             }
+            Log.d("Fragment register count:"+count);
         }
     }
 

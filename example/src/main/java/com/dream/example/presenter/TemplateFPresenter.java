@@ -1,9 +1,6 @@
 package com.dream.example.presenter;
 
-import com.dream.example.App;
 import com.dream.example.presenter.base.AppBaseFragmentPresenter;
-import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
-import com.dream.example.ui.fragment.base.AppBaseFragment;
 import com.dream.example.view.ITemplateView;
 
 /**
@@ -11,8 +8,7 @@ import com.dream.example.view.ITemplateView;
  * Date: 2016/08/17 16:59 <br>
  * Author: ysj
  */
-public class TemplateFPresenter extends
-        AppBaseFragmentPresenter<AppBaseAppCompatActivity, AppBaseFragment, App> implements ITemplateView {
+public class TemplateFPresenter extends AppBaseFragmentPresenter implements ITemplateView {
 
     @Override
     public void onInit() {

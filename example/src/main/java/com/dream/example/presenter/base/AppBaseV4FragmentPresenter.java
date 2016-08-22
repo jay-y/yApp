@@ -6,15 +6,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dream.example.App;
 import com.dream.example.R;
 import com.dream.example.data.support.DataSupports;
 import com.dream.example.data.support.HttpFactory;
 import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
+import com.dream.example.ui.fragment.base.AppBaseV4Fragment;
 import com.dream.example.view.IAppBaseView;
 
-import org.yapp.core.Application;
 import org.yapp.core.presenter.BaseV4FragmentPresenter;
-import org.yapp.core.ui.fragment.BaseV4Fragment;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
@@ -24,8 +24,7 @@ import org.yapp.utils.Log;
  * Date: 2016/3/17 10:32 <br>
  * Author: ysj
  */
-public abstract class AppBaseV4FragmentPresenter<T extends AppBaseAppCompatActivity, F extends BaseV4Fragment, A extends Application>
-        extends BaseV4FragmentPresenter<T, F, A> implements IAppBaseView {
+public abstract class AppBaseV4FragmentPresenter extends BaseV4FragmentPresenter<AppBaseAppCompatActivity, AppBaseV4Fragment, App> implements IAppBaseView {
     @ViewInject(R.id.toolbar)
     protected Toolbar mToolbar;
     @ViewInject(R.id.toolbar_title)
@@ -89,7 +88,7 @@ public abstract class AppBaseV4FragmentPresenter<T extends AppBaseAppCompatActiv
 
 
     @Override
-    public void onBuild(Context context, F fragment) {
+    public void onBuild(Context context, AppBaseV4Fragment fragment) {
         super.onBuild(context, fragment);
         initToolBar();
         mImm = (InputMethodManager) getContent().getSystemService(Context.INPUT_METHOD_SERVICE);

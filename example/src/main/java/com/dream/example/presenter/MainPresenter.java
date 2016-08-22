@@ -25,7 +25,6 @@ import com.dream.example.data.support.AppConsts;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.DebugActivity;
 import com.dream.example.ui.activity.SplashActivity;
-import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.ui.fragment.NewsV4Fragment;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.IMainView;
@@ -45,7 +44,7 @@ import java.util.List;
  * Author: ysj
  */
 public class MainPresenter extends
-        AppBaseActivityPresenter<AppBaseAppCompatActivity, App> implements IMainView, NavigationView.OnNavigationItemSelectedListener {
+        AppBaseActivityPresenter implements IMainView, NavigationView.OnNavigationItemSelectedListener {
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout mDrawer;
@@ -62,7 +61,7 @@ public class MainPresenter extends
     private List<TextView> mSelectList;
     private ArrayList<Fragment> mFragmentList;
     private FragmentFactory mFactory = FragmentFactory.getInstance();
-    private int[] icons = {R.drawable.bottom_contacts_selector, R.drawable.bottom_my_selector};
+    private int[] icons = {R.drawable.bottom_my_selector, R.drawable.bottom_contacts_selector};
 
     public FragmentFactory getFragmentFactory() {
         return mFactory;
@@ -74,6 +73,7 @@ public class MainPresenter extends
 
     @Override
     public void onInit() {
+//        getContent().setHasOptionsMenu(true);
         if (SPUtil.get(getContent(), AppConsts._ERROR_CODE, 0) == 0) {
             FragmentFactory.releaseInstance();
             goThenKill(SplashActivity.class);
@@ -89,10 +89,8 @@ public class MainPresenter extends
 //        if (3 == App.getStatus()) {
 //            IntentUtil.gotoWebActivity(this, RequestFactory.newVersionInfo(app.getVersionName()), getString(R.string.app_update));
 //        }
-//        mFactory.registerFragment(R.string.fragment_contacts, ContactsV4Fragment.newInstance());
-//        mFactory.registerFragment(R.string.fragment_my, MyV4Fragment.newInstance());
-//        mFactory.registerFragment(R.string.fragment_contacts, TemplateV4Fragment.newInstance());
         mFactory.registerFragment(R.string.fragment_my, NewsV4Fragment.newInstance());
+//        mFactory.registerFragment(R.string.fragment_contacts, TemplateV4Fragment.newInstance());
         if (mFactory.getCount() <= 0) return;
         mFragmentList = new ArrayList<>();
         mSelectList = new ArrayList<>();
@@ -101,18 +99,18 @@ public class MainPresenter extends
             int id = mFactory.getId(i);
             Bundle data = new Bundle();
             data.putInt(AppConsts._ID, id);
-            data.putString(AppConsts._DATA, mContext.getString(id));
+            data.putString(AppConsts._DATA, getContent().getString(id));
             Fragment item = mFactory.getV4Fragment(id);
             item.setArguments(data);
             mFragmentList.add(item);
-            TextView view = new TextView(mContext);
+            TextView view = new TextView(getContent());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             Integer resId = icons.length > i ? icons[i] : icons[0];
-            Drawable drawable = mContext.getResources().getDrawable(resId);
+            Drawable drawable = getContent().getResources().getDrawable(resId);
             drawable.setBounds(0, 0, 80, 80);
             view.setCompoundDrawables(null, drawable, null, null);
-            view.setBackground(mContext.getResources().getDrawable(R.drawable.tabs_btn_selector));
+            view.setBackground(getContent().getResources().getDrawable(R.drawable.tabs_btn_selector));
             view.setGravity(Gravity.CENTER);
             view.setPadding(15, 15, 15, 10);
             view.setLayoutParams(params);
@@ -129,7 +127,11 @@ public class MainPresenter extends
             mSelectList.add(view);
         }
         initPagerView();
-        if (mFactory.getCount() > 0) setTabSelection(0);
+    }
+
+    @Override
+    public void onClear() {
+        // do nothing
     }
 
     @Override
@@ -160,10 +162,18 @@ public class MainPresenter extends
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getContent().getMenuInflater().inflate(R.menu.menu_main, menu);
+        int menuId = getMenuRes();
+        if (menuId < 0) return true;
+        getContent().getMenuInflater().inflate(menuId, menu);
         mMenu = menu;
-        mMenu.getItem(2).setVisible(false);
-        mMenu.getItem(3).setVisible(false);
+        if (null != mMenu) {
+            for (int i = 0; i < mMenu.size(); i++) {
+                mMenu.getItem(i).setVisible(false);
+            }
+        }
+        if (mFactory.getCount() > 0) {
+            mPageListAdapter.onPageSelected(0);
+        }
         return true;
     }
 
@@ -171,15 +181,34 @@ public class MainPresenter extends
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-//            case R.id.action_scan:
-//                go(CaptureActivity.class);
-//                break;
-//            case R.id.action_save:
-//                ((MyV4Fragment) getFragmentFactory()
-//                        .getV4Fragment(R.string.fragment_my)).attemptSave();
-//                break;
+            case R.id.action_share:
+                showDialog(
+                        "GitHub: https://github.com/Jay-Y\n" +
+                                "\n" +
+                                "博客园: https://home.cnblogs.com/u/ysjshrine/\n" +
+                                "\n" +
+                                "新浪微博: http://weibo.com/u/5785639138\n" +
+                                "\n" +
+                                "个人邮箱: 570440569@qq.com",
+                        null, new Callback.DialogCallback() {
+                            @Override
+                            public void onPositive() {
+
+                            }
+
+                            @Override
+                            public void onNegative() {
+                                // do nothing
+                            }
+                        });
+                return false;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getMenuRes() {
+        return R.menu.menu_main;
     }
 
     /**
@@ -189,7 +218,9 @@ public class MainPresenter extends
     public void clearSelection() {
         if (null != mMenu) {
             for (int i = 0; i < mMenu.size(); i++) {
-                mMenu.getItem(i).setVisible(false);
+                if (mMenu.getItem(i).isVisible()) {
+                    mMenu.getItem(i).setVisible(false);
+                }
             }
         }
         for (TextView tv : mSelectList) {
@@ -219,20 +250,20 @@ public class MainPresenter extends
     public void setTabSelection(int index) {
         if (getFragmentFactory().getCount() <= 0) return;
         int resId = getFragmentFactory().getId(index);
-        mToolbar.setTitle(getContent().getString(resId));
+        setTitle(getContent().getString(resId), false);
         clearSelection();
         mViewPager.setCurrentItem(index, true);
         mSelectList.get(index).setSelected(true);
         switch (resId) {
-            case R.string.fragment_contacts:
-                if (null != mMenu) {
-                    mMenu.getItem(0).setVisible(true);
-                    mMenu.getItem(1).setVisible(true);
-                }
-                break;
             case R.string.fragment_my:
                 if (null != mMenu) {
-                    mMenu.getItem(3).setVisible(true);
+                    mMenu.findItem(R.id.action_search).setVisible(true);
+                    mMenu.findItem(R.id.action_share).setVisible(true);
+                }
+                break;
+            case R.string.fragment_contacts:
+                if (null != mMenu) {
+                    mMenu.findItem(R.id.action_save).setVisible(true);
                 }
                 break;
         }
@@ -242,7 +273,6 @@ public class MainPresenter extends
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_exit) {
             exit(new Callback.ExecCallback() {
                 @Override
@@ -300,7 +330,7 @@ public class MainPresenter extends
         @Override
         public void onPageSelected(int arg0) {
             int index = arg0;
-            TextView mTvDialog = null;
+//            TextView mTvDialog = null;
 //            if (arg0 > 0 && arg0 < getFragmentList().size()
 //                    && getFragmentFactory().getV4Fragment(getFragmentFactory().getId(arg0 - 1)) instanceof ContactsV4Fragment) {
 //                index = arg0 - 1;
@@ -311,7 +341,7 @@ public class MainPresenter extends
 //            if (null != mTvDialog) {
 //                mTvDialog.setVisibility(View.GONE);
 //            }
-            setTabSelection(arg0);
+            setTabSelection(index);
         }
     }
 }

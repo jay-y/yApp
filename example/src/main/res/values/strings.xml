@@ -35,6 +35,9 @@
     <string name="action_copy_url">复制链接</string>
     <string name="action_open_url">从浏览器打开链接</string>
 
+    <!-- Strings related to image -->
+    <string name="title_activity_img">图片详情</string>
+
     <!-- Strings related to login -->
     <string name="title_activity_login">用户登录</string>
     <string name="login_hint_uname">用户名</string>
