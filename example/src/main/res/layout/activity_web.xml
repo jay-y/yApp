@@ -1,21 +1,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activity.WebActivity">
 
-    <include layout="@layout/model_toolbar"/>
+    <include layout="@layout/model_toolbar" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipe_refresh_layout">
+        android:layout_height="match_parent">
 
-        <WebView
-            android:id="@+id/wb_content"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <WebView
+                android:id="@+id/wb_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <com.linroid.filtermenu.library.FilterMenuLayout
+            android:id="@+id/web_filter_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            app:fm_expandedRadius="96dp"
+            app:fm_collapsedRadius="24dp"
+            app:fm_centerBottom="50dp"
+            app:fm_centerRight="50dp"
+            app:fm_primaryColor="@color/base_title"
+            app:fm_primaryDarkColor="@color/blue_sky"/>
+    </RelativeLayout>
+
 </LinearLayout>

@@ -51,25 +51,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- 启动页-->
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait">
+            <!-- 启动页-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- DEBUG -->
+
         <activity
             android:name=".ui.activity.DebugActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <!-- DEBUG -->
+        </activity>
 
-        <!-- 主界面 -->
         <activity
             android:name=".ui.activity.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <!-- 主界面 -->
+        </activity>
 
         <activity
             android:name=".ui.activity.GuideActivity"
@@ -78,11 +82,19 @@
             <!-- 引导页 -->
         </activity>
 
-        <!-- 图片详情 -->
+        <activity
+            android:name=".ui.activity.WebActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <!-- 网页浏览 -->
+        </activity>
+
         <activity
             android:name=".ui.activity.ImageDetailActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <!-- 图片详情 -->
+        </activity>
     </application>
 
 </manifest>

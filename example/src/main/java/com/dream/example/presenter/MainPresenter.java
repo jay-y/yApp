@@ -26,6 +26,7 @@ import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.DebugActivity;
 import com.dream.example.ui.activity.SplashActivity;
 import com.dream.example.ui.fragment.NewsV4Fragment;
+import com.dream.example.utils.IntentUtil;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.IMainView;
 
@@ -73,7 +74,6 @@ public class MainPresenter extends
 
     @Override
     public void onInit() {
-//        getContent().setHasOptionsMenu(true);
         if (SPUtil.get(getContent(), AppConsts._ERROR_CODE, 0) == 0) {
             FragmentFactory.releaseInstance();
             goThenKill(SplashActivity.class);
@@ -193,7 +193,7 @@ public class MainPresenter extends
                         null, new Callback.DialogCallback() {
                             @Override
                             public void onPositive() {
-
+                                IntentUtil.gotoWebActivity(getContent(), "https://github.com/Jay-Y", "Jay-Y");
                             }
 
                             @Override

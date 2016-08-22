@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -22,6 +22,8 @@ import com.dream.example.utils.IntentUtil;
 import com.dream.example.utils.JsonUtil;
 import com.dream.example.utils.SynUtils;
 import com.dream.example.view.IWebView;
+import com.linroid.filtermenu.library.FilterMenu;
+import com.linroid.filtermenu.library.FilterMenuLayout;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Log;
@@ -46,6 +48,9 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
     @ViewInject(R.id.wb_content)
     private WebView mWebContent;
 
+    @ViewInject(R.id.web_filter_menu)
+    private FilterMenuLayout mMenuLayout;
+
     @Override
     public void onInit() {
         String url = getContent().getIntent().getStringExtra(EXTRA_URL);
@@ -56,6 +61,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         } else {
             setTitle(getContent().getString(R.string.app_name), true);
         }
+        attachMenu(mMenuLayout);
         JavaScriptUtil javaScriptUtil = new JavaScriptUtil(getContent());
         WebSettings settings = mWebContent.getSettings();
         settings.setLoadWithOverviewMode(true);
@@ -90,18 +96,8 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
 
     @Override
     public void onClear() {
-        // TODO Clear
         mWebContent = null;
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)
-                && mWebContent.canGoBack()) {
-            mWebContent.goBack();
-            return true;
-        }
-        return false;
+        mMenuLayout = null;
     }
 
     @Override
@@ -149,16 +145,6 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
     }
 
     @Override
-    public boolean prepareRefresh() {
-        if (!isRefreshing()) {
-            showLoading();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public void onRefreshStarted() {
         mWebContent.reload();
     }
@@ -188,6 +174,46 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         }
     }
 
+    /**
+     * 附上菜单
+     *
+     * @param layout
+     * @return
+     */
+    private FilterMenu attachMenu(FilterMenuLayout layout) {
+        return new FilterMenu.Builder(getContent())
+                .inflate(R.menu.menu_web_faq)
+                .attach(layout)
+                .withListener(new FilterMenu.OnMenuChangeListener() {
+                    @Override
+                    public void onMenuItemClick(View view, int position) {
+                        switch (position) {
+                            case 0:
+                                onRefreshStarted();
+                                break;
+                            case 1:
+                                if (mWebContent.canGoBack()) {
+                                    mWebContent.goBack();
+                                } else {
+                                    // do nothing
+                                }
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onMenuCollapse() {
+
+                    }
+
+                    @Override
+                    public void onMenuExpand() {
+
+                    }
+                })
+                .build();
+    }
+
     private class DefaultClient extends WebViewClient {
 
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -204,7 +230,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            showRefresh();
+            showLoading();
         }
 
         @Override
@@ -250,12 +276,12 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         /**
          * popupConfrim:(弹出确认框). <br>
          *
-         * @author ysj
          * @param json
+         * @author ysj
          * @since JDK 1.7 date: 2015-9-23 下午3:08:36 <br>
          */
         @JavascriptInterface
-        public void popupConfrim(String json){
+        public void popupConfrim(String json) {
             Log.d(json);
             if (!TextUtils.isEmpty(json)) {
                 Map<String, Object> result = JsonUtil.jsonToMap(json);
@@ -284,9 +310,9 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         /**
          * getResulet:(获取结果). <br>
          *
-         * @author ysj
          * @param url
          * @return
+         * @author ysj
          * @since JDK 1.7 date: 2015-9-25 下午4:19:09 <br>
          */
         @JavascriptInterface
