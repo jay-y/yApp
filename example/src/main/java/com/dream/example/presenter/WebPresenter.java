@@ -104,11 +104,6 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-//            case android.R.id.home:
-//                if (mWebContent.canGoBack()) {
-//                    mWebContent.goBack();
-//                    return true;
-//                }
             case R.id.action_copy_url:
                 String copyDone = getContent().getString(R.string.toast_copy_done);
                 SynUtils.copyToClipBoard(getContent(), mWebContent.getUrl(), copyDone);

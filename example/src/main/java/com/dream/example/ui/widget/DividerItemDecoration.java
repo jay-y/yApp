@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.dream.example.R;
+
 /**
  * Description: 用于RecyclerView分割线定制. <br>
  * Date: 2016/3/18 11:13 <br>

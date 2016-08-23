@@ -15,6 +15,7 @@ import com.dream.example.data.support.HttpFactory;
 import com.dream.example.presenter.base.AppSwipeRefreshV4FragmentPresenter;
 import com.dream.example.ui.adapter.GankV4FAdapter;
 import com.dream.example.ui.adapter.GirlV4FAdapter;
+import com.dream.example.ui.widget.DividerItemDecoration;
 import com.dream.example.utils.IntentUtil;
 import com.dream.example.view.IDefaultView;
 
@@ -96,7 +97,7 @@ public class GankPresenter extends AppSwipeRefreshV4FragmentPresenter implements
             });
         }
         mItemContent.setAdapter(mAdapter);
-//        mItemContent.addItemDecoration(new DividerItemDecoration(getContent(), DividerItemDecoration.VERTICAL_LIST));
+        mItemContent.addItemDecoration(new DividerItemDecoration(getContent(), DividerItemDecoration.VERTICAL_LIST));
         mItemContent.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
