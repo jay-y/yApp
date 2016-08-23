@@ -51,7 +51,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     public boolean onCreateOptionsMenu(Menu menu) {
         int menuId = getMenuRes();
         if (menuId < 0) return true;
-        getContent().getMenuInflater().inflate(menuId, menu);
+        getContext().getMenuInflater().inflate(menuId, menu);
         mMenu = menu;
         return true;
     }
@@ -61,7 +61,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
             return true;
         } else {
             if (android.R.id.home == item.getItemId()) {
-                getContent().onBackPressed();
+                getContext().onBackPressed();
             }
             return false;
         }
@@ -82,7 +82,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
      * @param strId
      */
     public void setTitle(int strId) {
-        String strTitle = getContent().getString(strId);
+        String strTitle = getContext().getString(strId);
         setTitle(strTitle, true, -1);
     }
 
@@ -101,7 +101,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
      * @param resId
      */
     public void setTitle(int strId, boolean isShowHome, int resId) {
-        String strTitle = getContent().getString(strId);
+        String strTitle = getContext().getString(strId);
         setTitle(strTitle, isShowHome, resId);
     }
 
@@ -118,11 +118,11 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
         } else if (null != mToolbar) {
             mToolbar.setTitle(strTitle);
         }
-        getContent().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
-        getContent().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
-        getContent().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
+        getContext().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
+        getContext().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
+        getContext().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
         if (resId != -1) {
-            getContent().getSupportActionBar().setHomeAsUpIndicator(resId);
+            getContext().getSupportActionBar().setHomeAsUpIndicator(resId);
         }
     }
 
@@ -143,7 +143,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     public void onBuild(Context context) {
         super.onBuild(context);
         initToolBar();
-        mImm = (InputMethodManager) getContent().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -184,9 +184,9 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     @Override
     public void showDialog(String msg, String title, final Callback.DialogCallback callback) {
         if (null == mMaterialDialog) {
-            mMaterialDialog = new MaterialDialog.Builder(getContent())
+            mMaterialDialog = new MaterialDialog.Builder(getContext())
                     .cancelable(true)
-                    .title(TextUtils.isEmpty(title) ? getContent().getString(R.string.app_name) : title)
+                    .title(TextUtils.isEmpty(title) ? getContext().getString(R.string.app_name) : title)
                     .content(TextUtils.isEmpty(msg) ? "" : msg)
                     .positiveText(R.string.action_ok)
                     .negativeText(R.string.action_cancle)
@@ -204,7 +204,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
                     })
                     .build();
         } else {
-            mMaterialDialog.setTitle(TextUtils.isEmpty(title) ? getContent().getString(R.string.app_name) : title);
+            mMaterialDialog.setTitle(TextUtils.isEmpty(title) ? getContext().getString(R.string.app_name) : title);
             mMaterialDialog.setContent(TextUtils.isEmpty(msg) ? "" : msg);
             mMaterialDialog.getBuilder().onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
@@ -240,7 +240,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     @Override
     public void showLoading() {
         if (null == mLoadingDialog) {
-            mLoadingDialog = new LoadingDialog(getContent());
+            mLoadingDialog = new LoadingDialog(getContext());
         }
         mLoadingDialog.show();
     }
@@ -263,8 +263,8 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     }
 
     private void initToolBar() {
-        if (null == mToolbar) mToolbar = (Toolbar) getContent().findViewById(R.id.toolbar);
-        if (null == mTitle) mTitle = (TextView) getContent().findViewById(R.id.toolbar_title);
-        if (null != mToolbar) getContent().setSupportActionBar(mToolbar);
+        if (null == mToolbar) mToolbar = (Toolbar) getContext().findViewById(R.id.toolbar);
+        if (null == mTitle) mTitle = (TextView) getContext().findViewById(R.id.toolbar_title);
+        if (null != mToolbar) getContext().setSupportActionBar(mToolbar);
     }
 }

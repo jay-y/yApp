@@ -52,7 +52,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
     }
 
     @Override
-    public View getContentView() {
+    public View getContextView() {
         return mFragment.getView();
     }
 
@@ -62,7 +62,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param clazz
      */
     public void go(Class<?> clazz) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         getFragment().startActivity(intent);
     }
 
@@ -73,7 +73,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param bundle
      */
     public void go(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
@@ -88,7 +88,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param delayed 延迟加载时间
      */
     public void go(Class<?> clazz, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override
@@ -104,9 +104,9 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param clazz
      */
     public void goThenKill(Class<?> clazz) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         getFragment().startActivity(intent);
-        getContent().finish();
+        getContext().finish();
     }
 
     /**
@@ -116,12 +116,12 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param bundle
      */
     public void goThenKill(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
         getFragment().startActivity(intent);
-        getContent().finish();
+        getContext().finish();
     }
 
     /**
@@ -132,13 +132,13 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param delayed 延迟加载时间
      */
     public void goThenKill(Class<?> clazz, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override
             public void run() {
                 getFragment().startActivity(intent);
-                getContent().finish();
+                getContext().finish();
             }
         }, delayed * 1000);
     }
@@ -150,7 +150,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param requestCode
      */
     public void goForResult(Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         getFragment().startActivityForResult(intent, requestCode);
     }
 
@@ -162,7 +162,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param bundle
      */
     public void goForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
@@ -177,7 +177,7 @@ public abstract class BaseV4FragmentPresenter<T extends BaseAppCompatActivity, F
      * @param delayed 延迟加载时间
      */
     public void goForResult(Class<?> clazz, final int requestCode, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override

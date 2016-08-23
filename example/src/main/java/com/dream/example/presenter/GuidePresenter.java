@@ -59,7 +59,7 @@ public class GuidePresenter extends
         for (int i = 0; i < rid.length; i++) {
             PlaceholderFragment itemFragment = PlaceholderFragment.newInstance(rid[i]);
             pagerList.add(itemFragment);
-            ImageView dotView = new ImageView(getContent());
+            ImageView dotView = new ImageView(getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             params.leftMargin = 5;
@@ -67,7 +67,7 @@ public class GuidePresenter extends
             mDotLayout.addView(dotView, params);
             dotViewsList.add(dotView);
         }
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getContent().getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getContext().getSupportFragmentManager());
         mViewPager.setOffscreenPageLimit(pagerList.size()); // 根据滑动页数目指定
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -76,7 +76,7 @@ public class GuidePresenter extends
         mBtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SPUtil.put(getContent(), AppConsts.AppConfig.PARAM_HASAPP, AppConsts._NO);
+                SPUtil.put(getContext(), AppConsts.AppConfig.PARAM_HASAPP, AppConsts._NO);
                 goThenKill(MainActivity.class);
             }
         });

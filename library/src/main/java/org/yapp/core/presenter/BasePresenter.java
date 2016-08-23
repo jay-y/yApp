@@ -32,7 +32,7 @@ public abstract class BasePresenter<T,A extends Application> implements IBaseVie
     }
 
     @Override
-    public T getContent() {
+    public T getContext() {
         return (T) mContext;
     }
 

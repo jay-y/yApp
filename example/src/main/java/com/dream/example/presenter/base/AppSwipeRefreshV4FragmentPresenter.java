@@ -11,6 +11,7 @@ import com.dream.example.view.ISwipeRefreshView;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Log;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
@@ -43,6 +44,11 @@ public abstract class AppSwipeRefreshV4FragmentPresenter extends
         mSwipeRefreshLayout = null;
         mRequest = null;
         super.onDestroy();
+    }
+
+    @Override
+    public Observable getObservable() {
+        return null;
     }
 
     @Override
@@ -109,7 +115,7 @@ public abstract class AppSwipeRefreshV4FragmentPresenter extends
 
     private void initSwipeLayout() {
         if (null == mSwipeRefreshLayout)
-            mSwipeRefreshLayout = (SwipeRefreshLayout) getContentView().findViewById(R.id.swipe_refresh_layout);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) getContextView().findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.red);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

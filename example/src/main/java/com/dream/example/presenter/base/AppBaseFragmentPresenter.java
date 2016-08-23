@@ -38,12 +38,12 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
 
     @Override
     public void showMsg(String msg) {
-        getContent().getPresenter().showMsg(msg);
+        getContext().getPresenter().showMsg(msg);
     }
 
     @Override
     public void showError(Throwable throwable) {
-        getContent().getPresenter().showError(throwable);
+        getContext().getPresenter().showError(throwable);
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
      */
     @Override
     public void showDialog(String msg, String title, Callback.DialogCallback callback) {
-        getContent().getPresenter().showDialog(title, msg, callback);
+        getContext().getPresenter().showDialog(title, msg, callback);
     }
 
     public void showDialog(String msg, String title) {
@@ -68,22 +68,22 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
 
     @Override
     public void closeDialog() {
-        getContent().getPresenter().closeDialog();
+        getContext().getPresenter().closeDialog();
     }
 
     @Override
     public void showLoading() {
-        getContent().getPresenter().showLoading();
+        getContext().getPresenter().showLoading();
     }
 
     @Override
     public void closeLoading() {
-        getContent().getPresenter().closeLoading();
+        getContext().getPresenter().closeLoading();
     }
 
     @Override
     public boolean isLoading() {
-        return getContent().getPresenter().isLoading();
+        return getContext().getPresenter().isLoading();
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
      * @param resId
      */
     public void setTitle(int resId) {
-        String strTitle = getContent().getString(resId);
+        String strTitle = getContext().getString(resId);
         setTitle(strTitle, true);
     }
 
@@ -115,9 +115,9 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
         if (strTitle.length() > 10) strTitle = strTitle.substring(0, 10) + "...";
         if (null != mTitle) {
             mTitle.setText(strTitle); //设置自定义标题文字
-            getContent().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
-            getContent().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
-            getContent().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
+            getContext().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
+            getContext().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
+            getContext().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
         } else if (null != mToolbar) {
             mToolbar.setTitle(strTitle);
         }
@@ -140,7 +140,7 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
     public void onBuild(Context context, AppBaseFragment fragment) {
         super.onBuild(context, fragment);
         initToolBar();
-        mImm = (InputMethodManager) getContent().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -158,8 +158,8 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
     }
 
     private void initToolBar() {
-        if (null == mToolbar) mToolbar = (Toolbar) getContent().findViewById(R.id.toolbar);
-        if (null == mTitle) mTitle = (TextView) getContent().findViewById(R.id.toolbar_title);
-        if (null != mToolbar) getContent().setSupportActionBar(mToolbar);
+        if (null == mToolbar) mToolbar = (Toolbar) getContext().findViewById(R.id.toolbar);
+        if (null == mTitle) mTitle = (TextView) getContext().findViewById(R.id.toolbar_title);
+        if (null != mToolbar) getContext().setSupportActionBar(mToolbar);
     }
 }

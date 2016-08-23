@@ -62,10 +62,10 @@ public class GankPresenter extends AppSwipeRefreshV4FragmentPresenter implements
 
     @Override
     public void onInit() {
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContent());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mItemContent.setLayoutManager(layoutManager);
         resId = getFragment().getArguments().getInt(AppConsts._ID);
-        mAdapter = new GankV4FAdapter(getContent());
+        mAdapter = new GankV4FAdapter(getContext());
         switch (resId) {
             case R.string.fragment_app:
                 type = AppConsts.ServerConfig.PARAM_TYPE_APP;
@@ -77,7 +77,7 @@ public class GankPresenter extends AppSwipeRefreshV4FragmentPresenter implements
                 type = AppConsts.ServerConfig.PARAM_TYPE_IOS;
                 break;
             case R.string.fragment_boon:
-                mAdapter = new GirlV4FAdapter(getContent());
+                mAdapter = new GirlV4FAdapter(getContext());
                 type = AppConsts.ServerConfig.PARAM_TYPE_GIRL;
                 break;
         }
@@ -85,19 +85,19 @@ public class GankPresenter extends AppSwipeRefreshV4FragmentPresenter implements
             ((GankV4FAdapter) mAdapter).setIClickItem(new GankV4FAdapter.IClickItem() {
                 @Override
                 public void onClickItem(Gank entity, View view) {
-                    IntentUtil.gotoWebActivity(getContent(), entity.getUrl(), entity.getDesc());
+                    IntentUtil.gotoWebActivity(getContext(), entity.getUrl(), entity.getDesc());
                 }
             });
         } else if (mAdapter instanceof GirlV4FAdapter) {
             ((GirlV4FAdapter) mAdapter).setIClickItem(new GirlV4FAdapter.IClickItem() {
                 @Override
                 public void onClickItem(Gank entity, View view) {
-                    IntentUtil.gotoImageDetailActivity(getContent(),entity.getUrl());
+                    IntentUtil.gotoImageDetailActivity(getContext(),entity.getUrl());
                 }
             });
         }
         mItemContent.setAdapter(mAdapter);
-        mItemContent.addItemDecoration(new DividerItemDecoration(getContent(), DividerItemDecoration.VERTICAL_LIST));
+        mItemContent.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         mItemContent.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

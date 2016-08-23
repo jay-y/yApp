@@ -27,7 +27,7 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
     @Override
     public void onBuild(Context context){
         super.onBuild(context);
-        ViewInjector.inject(getContent(), this);
+        ViewInjector.inject(getContext(), this);
     }
 
     /**
@@ -36,8 +36,8 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param clazz
      */
     public void go(Class<?> clazz) {
-        Intent intent = new Intent(getContent(), clazz);
-        getContent().startActivity(intent);
+        Intent intent = new Intent(getContext(), clazz);
+        getContext().startActivity(intent);
     }
 
     /**
@@ -47,11 +47,11 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param bundle
      */
     public void go(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
-        getContent().startActivity(intent);
+        getContext().startActivity(intent);
     }
 
     /**
@@ -62,12 +62,12 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param delayed 延迟加载时间
      */
     public void go(Class<?> clazz, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getContent().startActivity(intent);
+                getContext().startActivity(intent);
             }
         }, delayed * 1000);
     }
@@ -78,9 +78,9 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param clazz
      */
     public void goThenKill(Class<?> clazz) {
-        Intent intent = new Intent(getContent(), clazz);
-        getContent().startActivity(intent);
-        getContent().finish();
+        Intent intent = new Intent(getContext(), clazz);
+        getContext().startActivity(intent);
+        getContext().finish();
     }
 
     /**
@@ -90,12 +90,12 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param bundle
      */
     public void goThenKill(Class<?> clazz, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
-        getContent().startActivity(intent);
-        getContent().finish();
+        getContext().startActivity(intent);
+        getContext().finish();
     }
 
     /**
@@ -106,13 +106,13 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param delayed 延迟加载时间
      */
     public void goThenKill(Class<?> clazz, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getContent().startActivity(intent);
-                getContent().finish();
+                getContext().startActivity(intent);
+                getContext().finish();
             }
         }, delayed * 1000);
     }
@@ -124,8 +124,8 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param requestCode
      */
     public void goForResult(Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(getContent(), clazz);
-        getContent().startActivityForResult(intent, requestCode);
+        Intent intent = new Intent(getContext(), clazz);
+        getContext().startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -136,11 +136,11 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param bundle
      */
     public void goForResult(Class<?> clazz, int requestCode, Bundle bundle) {
-        Intent intent = new Intent(getContent(), clazz);
+        Intent intent = new Intent(getContext(), clazz);
         if (null != bundle) {
             intent.putExtras(bundle);
         }
-        getContent().startActivityForResult(intent, requestCode);
+        getContext().startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -151,12 +151,12 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param delayed 延迟加载时间
      */
     public void goForResult(Class<?> clazz, final int requestCode, Bundle bundle, int delayed) {
-        final Intent intent = new Intent(getContent(), clazz);
+        final Intent intent = new Intent(getContext(), clazz);
         if (bundle != null) intent.putExtras(bundle);
         y.task().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getContent().startActivityForResult(intent, requestCode);
+                getContext().startActivityForResult(intent, requestCode);
             }
         }, delayed * 1000);
     }

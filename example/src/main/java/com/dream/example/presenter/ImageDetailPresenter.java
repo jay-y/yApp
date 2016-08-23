@@ -43,7 +43,7 @@ public class ImageDetailPresenter extends
 
     @Override
     public void onInit() {
-        Intent intent = getContent().getIntent();
+        Intent intent = getContext().getIntent();
         Bundle extras = null != intent ? intent.getExtras() : null;
         if (null != extras) {
             if (extras.containsKey(IntentUtil.EXTRA_URL)
@@ -58,9 +58,9 @@ public class ImageDetailPresenter extends
                 display(mUrlList, 5);
                 onPageSelected(index);
             }
-            setTitle(getContent().getString(R.string.title_activity_img));
+            setTitle(getContext().getString(R.string.title_activity_img));
         } else {
-            getContent().finish();
+            getContext().finish();
         }
     }
 
@@ -85,7 +85,7 @@ public class ImageDetailPresenter extends
         int h = mIvContent.getMeasuredHeight() > 0 ? mIvContent.getMeasuredHeight() : 400;
         // TODO 根据需要调整
         url = (url.indexOf(AppConsts.AppConfig.PATH_HTTP) != -1 || url.indexOf(AppConsts.AppConfig.PATH_HTTPS) != -1) ? url : AppConsts.AppConfig.PATH_FILE + url;
-        Picasso.with(getContent())
+        Picasso.with(getContext())
                 .load(url)
                 .memoryPolicy(MemoryPolicy.NO_STORE, MemoryPolicy.NO_CACHE)
                 .config(Bitmap.Config.RGB_565)
@@ -106,7 +106,7 @@ public class ImageDetailPresenter extends
     public void display(List<String> urlList) {
         mViewPager.setVisibility(View.VISIBLE);
         mIvContent.setVisibility(View.GONE);
-        mAdapter = new ImageDetailAdapter(getContent());
+        mAdapter = new ImageDetailAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
         mAdapter.update(urlList);
         mViewPager.setOffscreenPageLimit(urlList.size());
@@ -124,7 +124,7 @@ public class ImageDetailPresenter extends
     public void display(List<String> urlList, int count) {
         mViewPager.setVisibility(View.VISIBLE);
         mIvContent.setVisibility(View.GONE);
-        mAdapter = new ImageDetailAdapter(getContent());
+        mAdapter = new ImageDetailAdapter(getContext());
         mViewPager.setAdapter(mAdapter);
         mAdapter.update(urlList);
         mViewPager.setOffscreenPageLimit(count);

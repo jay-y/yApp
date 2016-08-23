@@ -55,9 +55,9 @@ public class NewsV4FPresenter extends AppSwipeRefreshV4FragmentPresenter impleme
 
     @Override
     public void onInit() {
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContent());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mItemContent.setLayoutManager(layoutManager);
-        mAdapter = new NewsV4FAdapter(getContent());
+        mAdapter = new NewsV4FAdapter(getContext());
         mAdapter.setIClickItem(this);
         mItemContent.setAdapter(mAdapter);
         mItemContent.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -92,13 +92,13 @@ public class NewsV4FPresenter extends AppSwipeRefreshV4FragmentPresenter impleme
 
     @Override
     public void onClickItem(Map<String, Object> entity, View view) {
-        IntentUtil.gotoImageDetailActivity(getContent(), (String) entity.get("imgsrc"));
+        IntentUtil.gotoImageDetailActivity(getContext(), (String) entity.get("imgsrc"));
     }
 
     @Override
     public void showEmpty() {
         mAdapter.clear();
-        showMsg(getContent().getString(R.string.data_null));
+        showMsg(getContext().getString(R.string.data_null));
     }
 
     @Override

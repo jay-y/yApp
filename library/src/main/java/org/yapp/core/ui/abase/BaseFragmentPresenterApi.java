@@ -13,5 +13,5 @@ public interface BaseFragmentPresenterApi<F> {
 
     F getFragment();
 
-    View getContentView();
+    View getContextView();
 }

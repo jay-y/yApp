@@ -12,5 +12,5 @@ public interface BasePresenterApi<T> {
 
     void onDestroy();
 
-    T getContent();
+    T getContext();
 }

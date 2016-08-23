@@ -107,7 +107,7 @@ public abstract class AppSwipeRefreshActivityPresenter extends AppBaseActivityPr
 
     private void initSwipeLayout() {
         if (null == mSwipeRefreshLayout)
-            mSwipeRefreshLayout = (SwipeRefreshLayout) getContent().findViewById(R.id.swipe_refresh_layout);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) getContext().findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.red);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

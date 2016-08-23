@@ -30,9 +30,9 @@ public class SplashPresenter extends AppBaseActivityPresenter implements ISplash
 
     @Override
     public void onInit() {
-        String serverAddress = (String) SPUtil.get(getContent(), AppConsts._SERVER_ADDRESS, "");
+        String serverAddress = (String) SPUtil.get(getContext(), AppConsts._SERVER_ADDRESS, "");
         mImgBg.setImageResource(R.drawable.splash);
-        SPUtil.put(getContent(), AppConsts._ERROR_CODE, 1);
+        SPUtil.put(getContext(), AppConsts._ERROR_CODE, 1);
         if (!TextUtils.isEmpty(serverAddress)) {
             AppConsts.ServerConfig.MAIN_HOST = serverAddress;
             HttpFactory.resetMainDataSupports();
@@ -79,7 +79,7 @@ public class SplashPresenter extends AppBaseActivityPresenter implements ISplash
      * @return
      */
     private boolean initGuide() {
-        String hasApp = (String) SPUtil.get(getContent(), AppConsts.AppConfig.PARAM_HASAPP, AppConsts._YES);// hasApp变量用来判断是否第一次使用App，包括上面的YES和NO
+        String hasApp = (String) SPUtil.get(getContext(), AppConsts.AppConfig.PARAM_HASAPP, AppConsts._YES);// hasApp变量用来判断是否第一次使用App，包括上面的YES和NO
         if (!hasApp.equals(AppConsts._NO)) {
             App.setStatus(0);
             jump(GuideActivity.class, null, 3);

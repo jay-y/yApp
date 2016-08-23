@@ -74,13 +74,13 @@ public class MainPresenter extends
 
     @Override
     public void onInit() {
-        if (SPUtil.get(getContent(), AppConsts._ERROR_CODE, 0) == 0) {
+        if (SPUtil.get(getContext(), AppConsts._ERROR_CODE, 0) == 0) {
             FragmentFactory.releaseInstance();
             goThenKill(SplashActivity.class);
             return;
         }
-        SPUtil.put(getContent(), AppConsts._ERROR_CODE, 0);
-        mToggle = new ActionBarDrawerToggle(getContent(), mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        SPUtil.put(getContext(), AppConsts._ERROR_CODE, 0);
+        mToggle = new ActionBarDrawerToggle(getContext(), mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(mToggle);
         mToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -102,19 +102,19 @@ public class MainPresenter extends
             int id = mFactory.getId(i);
             Bundle data = new Bundle();
             data.putInt(AppConsts._ID, id);
-            data.putString(AppConsts._DATA, getContent().getString(id));
+            data.putString(AppConsts._DATA, getContext().getString(id));
             Fragment item = mFactory.getV4Fragment(id);
             item.setArguments(data);
             mFragmentList.add(item);
-            TextView view = new TextView(getContent());
+            TextView view = new TextView(getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             Integer resId = icons.length > i ? icons[i] : icons[0];
-            Drawable drawable = getContent().getResources().getDrawable(resId);
+            Drawable drawable = getContext().getResources().getDrawable(resId);
 //            drawable.setBounds(0, 0, 80, 80);
             drawable.setBounds(0, 0, 90, 90);
             view.setCompoundDrawables(null, drawable, null, null);
-            view.setBackground(getContent().getResources().getDrawable(R.drawable.tabs_btn_selector));
+            view.setBackground(getContext().getResources().getDrawable(R.drawable.tabs_btn_selector));
             view.setGravity(Gravity.CENTER);
             view.setLayoutParams(params);
             view.setPadding(15, 10, 15, 5);
@@ -148,7 +148,7 @@ public class MainPresenter extends
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addCategory(Intent.CATEGORY_HOME);
-                getContent().startActivity(intent);
+                getContext().startActivity(intent);
             }
             return true;
         }
@@ -169,7 +169,7 @@ public class MainPresenter extends
     public boolean onCreateOptionsMenu(Menu menu) {
         int menuId = getMenuRes();
         if (menuId < 0) return true;
-        getContent().getMenuInflater().inflate(menuId, menu);
+        getContext().getMenuInflater().inflate(menuId, menu);
         mMenu = menu;
         if (mFactory.getCount() > 0) {
             mPageListAdapter.onPageSelected(0);
@@ -193,7 +193,7 @@ public class MainPresenter extends
                         null, new Callback.DialogCallback() {
                             @Override
                             public void onPositive() {
-                                IntentUtil.gotoWebActivity(getContent(), "https://github.com/Jay-Y", "Jay-Y");
+                                IntentUtil.gotoWebActivity(getContext(), "https://github.com/Jay-Y", "Jay-Y");
                             }
 
                             @Override
@@ -233,7 +233,7 @@ public class MainPresenter extends
 
     @Override
     public void initPagerView() {
-        mPageListAdapter = new PageListAdapter(getContent().getSupportFragmentManager(), mViewPager, getFragmentList());
+        mPageListAdapter = new PageListAdapter(getContext().getSupportFragmentManager(), mViewPager, getFragmentList());
         mViewPager.setAdapter(mPageListAdapter);
         mViewPager.setOffscreenPageLimit(getFragmentList().size());
         mViewPager.addOnPageChangeListener(mPageListAdapter);
@@ -248,7 +248,7 @@ public class MainPresenter extends
     public void setTabSelection(int index) {
         if (getFragmentFactory().getCount() <= 0) return;
         int resId = getFragmentFactory().getId(index);
-        setTitle(getContent().getString(resId), true,R.mipmap.ic_launcher);
+        setTitle(getContext().getString(resId), true,R.mipmap.ic_launcher);
         clearSelection();
         mViewPager.setCurrentItem(index, true);
         mSelectList.get(index).setSelected(true);
@@ -275,9 +275,9 @@ public class MainPresenter extends
                 }
             });
         } else if (id == R.id.nav_safe) {
-            IntentUtil.gotoWebActivity(getContent(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContent().getString(R.string.nav_safe));
+            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContext().getString(R.string.nav_safe));
         } else if (id == R.id.nav_help) {
-            IntentUtil.gotoWebActivity(getContent(), AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getContent().getString(R.string.nav_help));
+            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getContext().getString(R.string.nav_help));
         }
         if (null != mDrawer) mDrawer.closeDrawer(GravityCompat.START);
         return true;

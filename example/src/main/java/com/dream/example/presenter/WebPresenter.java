@@ -53,16 +53,16 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
 
     @Override
     public void onInit() {
-        String url = getContent().getIntent().getStringExtra(EXTRA_URL);
-        String title = getContent().getIntent().getStringExtra(EXTRA_TITLE);
+        String url = getContext().getIntent().getStringExtra(EXTRA_URL);
+        String title = getContext().getIntent().getStringExtra(EXTRA_TITLE);
 
         if (!TextUtils.isEmpty(title)) {
             setTitle(title);
         } else {
-            setTitle(getContent().getString(R.string.app_name));
+            setTitle(getContext().getString(R.string.app_name));
         }
         attachMenu(mMenuLayout);
-        JavaScriptUtil javaScriptUtil = new JavaScriptUtil(getContent());
+        JavaScriptUtil javaScriptUtil = new JavaScriptUtil(getContext());
         WebSettings settings = mWebContent.getSettings();
         settings.setLoadWithOverviewMode(true);
         settings.setAppCacheEnabled(true);
@@ -78,7 +78,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         mWebContent.setWebViewClient(new DefaultClient());
         mWebContent.addJavascriptInterface(javaScriptUtil,
                 JavaScriptUtil.INTERFACE_NAME);
-        getContent().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+        getContext().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         loadUrl(url);
     }
@@ -105,18 +105,18 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         int id = item.getItemId();
         switch (id) {
             case R.id.action_copy_url:
-                String copyDone = getContent().getString(R.string.toast_copy_done);
-                SynUtils.copyToClipBoard(getContent(), mWebContent.getUrl(), copyDone);
+                String copyDone = getContext().getString(R.string.toast_copy_done);
+                SynUtils.copyToClipBoard(getContext(), mWebContent.getUrl(), copyDone);
                 return true;
             case R.id.action_open_url:
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 Uri uri = Uri.parse(mWebContent.getUrl());
                 intent.setData(uri);
-                if (intent.resolveActivity(getContent().getPackageManager()) != null) {
-                    getContent().startActivity(intent);
+                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                    getContext().startActivity(intent);
                 } else {
-                    Toast.showMessageForButtomShort(getContent().getString(R.string.toast_open_fail));
+                    Toast.showMessageForButtomShort(getContext().getString(R.string.toast_open_fail));
                 }
                 return true;
         }
@@ -135,7 +135,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
 
     @Override
     public void showEmpty() {
-        getContent().getPresenter().showMsg(getContent().getString(R.string.data_null));
+        getContext().getPresenter().showMsg(getContext().getString(R.string.data_null));
     }
 
     @Override
@@ -160,7 +160,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
      * @return
      */
     private FilterMenu attachMenu(FilterMenuLayout layout) {
-        return new FilterMenu.Builder(getContent())
+        return new FilterMenu.Builder(getContext())
                 .inflate(R.menu.menu_web_faq)
                 .attach(layout)
                 .withListener(new FilterMenu.OnMenuChangeListener() {
@@ -247,7 +247,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
             if (data.indexOf("<div") == -1) {
                 Map<String, Object> result = JsonUtil.jsonToMap(filterTag(data));
                 if (!"0".equals(result.get(AppConsts._STATUS))) {
-                    showDialog(mContext.getString(R.string.data_error), (String) result.get(AppConsts._ERROR_MSG));
+                    showDialog(getContext().getString(R.string.data_error), (String) result.get(AppConsts._ERROR_MSG));
                 }
             }
         }
@@ -268,7 +268,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
                         && "0".equals(result.get(AppConsts._STATUS))) {
                     // TODO
                 } else {
-                    showDialog(getContent().getString(R.string.app_name)
+                    showDialog(getContext().getString(R.string.app_name)
                             , (String) result.get(AppConsts._ERROR_MSG));
                 }
             }
@@ -333,7 +333,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
             if (url.indexOf("http") == -1) {
                 url = AppConsts.ServerConfig.MAIN_HOST_PRIMARY + url;
             }
-            IntentUtil.gotoWebActivity(getContent(), url, getContent().getString(R.string.title_activity_web));
+            IntentUtil.gotoWebActivity(getContext(), url, getContext().getString(R.string.title_activity_web));
         }
 
         /**

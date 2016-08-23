@@ -74,8 +74,8 @@ public class LoginPresenter extends
     @Override
     public void onInit() {
         setTitle(R.string.title_activity_login);
-        String uname = (String) SPUtil.get(getContent(), AppConsts._UNAME, "");
-        String passwd = (String) SPUtil.get(getContent(), AppConsts._PASSWD, "");
+        String uname = (String) SPUtil.get(getContext(), AppConsts._UNAME, "");
+        String passwd = (String) SPUtil.get(getContext(), AppConsts._PASSWD, "");
         if (!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(passwd)) {
             mUnameView.setText(uname);
             mPasswordView.setText(passwd);
@@ -120,7 +120,7 @@ public class LoginPresenter extends
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(uname)) {
-            mUnameView.setError(getContent().getString(R.string.error_field_required));
+            mUnameView.setError(getContext().getString(R.string.error_field_required));
             focusView = mUnameView;
             cancel = true;
         }
@@ -132,11 +132,11 @@ public class LoginPresenter extends
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getContent().getString(R.string.error_field_required));
+            mPasswordView.setError(getContext().getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getContent().getString(R.string.error_invalid_password));
+            mPasswordView.setError(getContext().getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -175,7 +175,7 @@ public class LoginPresenter extends
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getContent().getResources().getInteger(android.R.integer.config_shortAnimTime);
+            int shortAnimTime = getContext().getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             mLoginFormView.animate().setDuration(shortAnimTime).alpha(
@@ -209,9 +209,9 @@ public class LoginPresenter extends
 
     @Override
     public void loginSuccess() {
-        SPUtil.put(getContent(), AppConsts._UNAME, mUnameView.getText().toString());
-        SPUtil.put(getContent(), AppConsts._PASSWD, mPasswordView.getText().toString());
+        SPUtil.put(getContext(), AppConsts._UNAME, mUnameView.getText().toString());
+        SPUtil.put(getContext(), AppConsts._PASSWD, mPasswordView.getText().toString());
         Toast.showMessageForButtomShort("登陆成功");
-        getContent().finish();
+        getContext().finish();
     }
 }

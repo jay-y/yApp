@@ -36,7 +36,7 @@ public class DebugPresenter extends AppBaseActivityPresenter implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.debug_btn_ok:
-                SPUtil.put(getContent(),AppConsts._SERVER_ADDRESS,mEtUrl.getText().toString());
+                SPUtil.put(getContext(),AppConsts._SERVER_ADDRESS,mEtUrl.getText().toString());
                 Toast.showMessageForButtomShort("保存成功!");
                 break;
         }
@@ -45,7 +45,7 @@ public class DebugPresenter extends AppBaseActivityPresenter implements View.OnC
     @Override
     public void onInit() {
         setTitle(R.string.test);
-        String serverAddress = (String) SPUtil.get(getContent(), AppConsts._SERVER_ADDRESS, "");
+        String serverAddress = (String) SPUtil.get(getContext(), AppConsts._SERVER_ADDRESS, "");
 
         mTvUrl.setText("当前服务器:" + AppConsts.ServerConfig.MAIN_HOST);
         if(!TextUtils.isEmpty(serverAddress)){
