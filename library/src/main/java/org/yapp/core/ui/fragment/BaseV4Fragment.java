@@ -77,7 +77,7 @@ public abstract class BaseV4Fragment<P extends BaseV4FragmentPresenter> extends 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initPresenter();
-        mPresenter.onBuild(getActivity());
+        mPresenter.onBuild(getActivity(),this);
         mPresenter.onInit();
     }
 

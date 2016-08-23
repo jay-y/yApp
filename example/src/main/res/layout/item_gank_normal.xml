@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="top|left"
+    android:orientation="horizontal"
+    tools:background="@color/white">
+
+    <TextView
+        android:id="@+id/item_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp54"
+        android:paddingLeft="@dimen/dp54"
+        android:paddingRight="@dimen/dp54"
+        android:paddingTop="@dimen/dp54"
+        android:textColor="@color/alpha_90_black"
+        android:textSize="@dimen/sp47"
+        tools:background="@color/red"
+        tools:text="叔叔、叔叔，西湖怎么走？" />
+
+</RelativeLayout>

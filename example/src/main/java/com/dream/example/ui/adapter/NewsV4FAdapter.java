@@ -22,10 +22,10 @@ import java.util.Map;
  * Date: 2015-8-21 上午10:25:10 <br>
  * Author: ysj
  */
-public class NewsAdapter extends BaseRecyclerViewAdapter<Map<String,Object>,NewsAdapter.ViewHolder> {
+public class NewsV4FAdapter extends BaseRecyclerViewAdapter<Map<String,Object>,NewsV4FAdapter.ViewHolder> {
     private IClickItem mIClickItem;
 
-    public NewsAdapter(Context context) {
+    public NewsV4FAdapter(Context context) {
         super(context);
     }
 

@@ -8,7 +8,11 @@ import com.dream.example.R;
 import com.dream.example.view.ISwipeRefreshView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
-import org.yapp.y;
+import org.yapp.utils.Log;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
 
 /**
  * Description: TemplateActivityPresenter. <br>
@@ -18,6 +22,9 @@ import org.yapp.y;
 public abstract class AppSwipeRefreshActivityPresenter extends AppBaseActivityPresenter implements ISwipeRefreshView {
     @ViewInject(R.id.swipe_refresh_layout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
+
+    // control request
+    protected Subscription mRequest;
 
     /**
      * 构建
@@ -36,6 +43,27 @@ public abstract class AppSwipeRefreshActivityPresenter extends AppBaseActivityPr
         super.onDestroy();
     }
 
+    @Override
+    public Observable getObservable() {
+        return null;
+    }
+
+    @Override
+    public void request(Subscriber subscriber) {
+        try {
+            mRequest = getObservable().subscribe(subscriber);
+        }catch (NullPointerException e){
+            Log.w("Observable not initialized.");
+        }
+    }
+
+    @Override
+    public void cancelRequest(){
+        if(null != mRequest && !mRequest.isUnsubscribed()){
+            mRequest.unsubscribe();
+        }
+    }
+
     public boolean prepareRefresh() {
         return true;
     }
@@ -43,14 +71,14 @@ public abstract class AppSwipeRefreshActivityPresenter extends AppBaseActivityPr
     @Override
     public void hideRefresh() {
         if (null == mSwipeRefreshLayout) return;
-        // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        y.task().postDelayed(new Runnable() {
+        // 防止刷新消失太快，让子弹飞一会儿.
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                closeLoading();
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-                closeLoading();
             }
         }, 1000);
     }

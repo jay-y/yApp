@@ -59,7 +59,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     public boolean onOptionsItemSelected(MenuItem item) {
         if (null != this.mToggle && this.mToggle.onOptionsItemSelected(item)) {
             return true;
-        }else{
+        } else {
             if (android.R.id.home == item.getItemId()) {
                 getContent().onBackPressed();
             }
@@ -79,11 +79,11 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
     /**
      * 设置标题
      *
-     * @param resId
+     * @param strId
      */
-    public void setTitle(int resId) {
-        String strTitle = getContent().getString(resId);
-        setTitle(strTitle, true);
+    public void setTitle(int strId) {
+        String strTitle = getContent().getString(strId);
+        setTitle(strTitle, true, -1);
     }
 
     /**
@@ -92,7 +92,17 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
      * @param strTitle
      */
     public void setTitle(String strTitle) {
-        setTitle(strTitle, true);
+        setTitle(strTitle, true, -1);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param resId
+     */
+    public void setTitle(int strId, boolean isShowHome, int resId) {
+        String strTitle = getContent().getString(strId);
+        setTitle(strTitle, isShowHome, resId);
     }
 
     /**
@@ -101,15 +111,18 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
      * @param strTitle
      * @param isShowHome
      */
-    public void setTitle(String strTitle, boolean isShowHome) {
+    public void setTitle(String strTitle, boolean isShowHome, int resId) {
         if (strTitle.length() > 10) strTitle = strTitle.substring(0, 10) + "...";
         if (null != mTitle) {
             mTitle.setText(strTitle); //设置自定义标题文字
-            getContent().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
-            getContent().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
-            getContent().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
         } else if (null != mToolbar) {
             mToolbar.setTitle(strTitle);
+        }
+        getContent().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
+        getContent().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
+        getContent().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
+        if (resId != -1) {
+            getContent().getSupportActionBar().setHomeAsUpIndicator(resId);
         }
     }
 
@@ -169,7 +182,7 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
      * @param callback
      */
     @Override
-    public void showDialog(String msg, String title,final Callback.DialogCallback callback) {
+    public void showDialog(String msg, String title, final Callback.DialogCallback callback) {
         if (null == mMaterialDialog) {
             mMaterialDialog = new MaterialDialog.Builder(getContent())
                     .cancelable(true)

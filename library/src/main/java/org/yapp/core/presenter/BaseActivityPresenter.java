@@ -1,11 +1,14 @@
 package org.yapp.core.presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import org.yapp.core.Application;
 import org.yapp.core.ui.abase.BaseActivityPresenterApi;
 import org.yapp.core.ui.activity.BaseAppCompatActivity;
+import org.yapp.core.ui.inject.ViewInjector;
 import org.yapp.y;
 
 /**
@@ -15,6 +18,18 @@ import org.yapp.y;
  */
 public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A extends Application>
         extends BasePresenter<T,A> implements BaseActivityPresenterApi {
+
+    /**
+     * 构建
+     *
+     * @param context activity context
+     */
+    @Override
+    public void onBuild(Context context){
+        super.onBuild(context);
+        ViewInjector.inject(getContent(), this);
+    }
+
     /**
      * startActivity
      *

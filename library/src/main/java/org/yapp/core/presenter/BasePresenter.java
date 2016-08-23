@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.yapp.core.Application;
 import org.yapp.core.ui.abase.BasePresenterApi;
-import org.yapp.core.ui.inject.ViewInjector;
 import org.yapp.core.view.IBaseView;
 import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
@@ -47,7 +46,6 @@ public abstract class BasePresenter<T,A extends Application> implements IBaseVie
         if (app == null) app = (A)((AppCompatActivity)context).getApplication();
         app.addActivity((AppCompatActivity) context);
         mContext = context;
-        ViewInjector.inject(getContent(), this);
     }
 
     @Override

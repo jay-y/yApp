@@ -22,8 +22,12 @@
     <!-- Strings related to main -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="fragment_contacts">通讯录</string>
-    <string name="fragment_my">我的</string>
+    <string name="fragment_app">程序</string>
+    <string name="fragment_and">Android</string>
+    <string name="fragment_ios">IOS</string>
+    <string name="fragment_boon">福利</string>
+    <string name="fragment_bucket">综合</string>
+    <string name="fragment_template">模板</string>
     <string name="action_scan">扫描</string>
     <string name="action_settings">Settings</string>
     <string name="action_save">保存</string>

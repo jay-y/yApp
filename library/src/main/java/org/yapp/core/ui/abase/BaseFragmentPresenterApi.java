@@ -1,6 +1,7 @@
 package org.yapp.core.ui.abase;
 
 import android.content.Context;
+import android.view.View;
 
 /**
  * Description: Fragment主持层基础接口. <br>
@@ -11,4 +12,6 @@ public interface BaseFragmentPresenterApi<F> {
     void onBuild(Context context,F fragment);
 
     F getFragment();
+
+    View getContentView();
 }

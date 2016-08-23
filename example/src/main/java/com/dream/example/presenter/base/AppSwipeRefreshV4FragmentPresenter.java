@@ -4,14 +4,15 @@ import android.content.Context;
 import android.support.annotation.CheckResult;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.dream.example.App;
 import com.dream.example.R;
-import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.ui.fragment.base.AppBaseV4Fragment;
 import com.dream.example.view.ISwipeRefreshView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
-import org.yapp.y;
+import org.yapp.utils.Log;
+
+import rx.Subscriber;
+import rx.Subscription;
 
 /**
  * Description: AppSwipeRefreshV4FragmentPresenter. <br>
@@ -23,21 +24,41 @@ public abstract class AppSwipeRefreshV4FragmentPresenter extends
     @ViewInject(R.id.swipe_refresh_layout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
+    // control request
+    protected Subscription mRequest;
+
     /**
      * 构建
      *
      * @param context activity context
      */
     @Override
-    public void onBuild(Context context) {
-        super.onBuild(context);
+    public void onBuild(Context context, AppBaseV4Fragment fragment) {
+        super.onBuild(context,fragment);
         initSwipeLayout();
     }
 
     @Override
     public void onDestroy() {
         mSwipeRefreshLayout = null;
+        mRequest = null;
         super.onDestroy();
+    }
+
+    @Override
+    public void request(Subscriber subscriber) {
+        try {
+            mRequest = getObservable().subscribe(subscriber);
+        }catch (NullPointerException e){
+            Log.w("Observable not initialized.");
+        }
+    }
+
+    @Override
+    public void cancelRequest(){
+        if(null != mRequest && !mRequest.isUnsubscribed()){
+            mRequest.unsubscribe();
+        }
     }
 
     /**
@@ -52,14 +73,14 @@ public abstract class AppSwipeRefreshV4FragmentPresenter extends
     @Override
     public void hideRefresh() {
         if (null == mSwipeRefreshLayout) return;
-        // 防止刷新消失太快，让子弹飞一会儿. do not use lambda!!
-        y.task().postDelayed(new Runnable() {
+        // 防止刷新消失太快，让子弹飞一会儿.
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
+                closeLoading();
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-                closeLoading();
             }
         }, 1000);
     }
@@ -88,7 +109,7 @@ public abstract class AppSwipeRefreshV4FragmentPresenter extends
 
     private void initSwipeLayout() {
         if (null == mSwipeRefreshLayout)
-            mSwipeRefreshLayout = (SwipeRefreshLayout) getContent().findViewById(R.id.swipe_refresh_layout);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) getContentView().findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.red);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

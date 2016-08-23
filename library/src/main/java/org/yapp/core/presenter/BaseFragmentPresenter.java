@@ -3,11 +3,14 @@ package org.yapp.core.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import org.yapp.core.Application;
 import org.yapp.core.ui.abase.BaseFragmentPresenterApi;
 import org.yapp.core.ui.activity.BaseAppCompatActivity;
 import org.yapp.core.ui.fragment.BaseFragment;
+import org.yapp.core.ui.inject.ViewInjector;
+import org.yapp.utils.Log;
 import org.yapp.y;
 
 /**
@@ -25,14 +28,32 @@ public abstract class BaseFragmentPresenter<T extends BaseAppCompatActivity, F e
      * @param context activity context
      */
     @Override
+    public void onBuild(Context context){
+        super.onBuild(context);
+        Log.w("Please override the onBuild(Context context, "+this.getClass().getSimpleName()+" fragment) method in " + this.getClass().getSimpleName() + ".");
+    }
+
+    /**
+     * 构建
+     *
+     * @param context
+     * @param fragment
+     */
+    @Override
     public void onBuild(Context context, F fragment) {
         super.onBuild(context);
         this.mFragment = fragment;
+        ViewInjector.inject(fragment, this);
     }
 
     @Override
     public F getFragment() {
         return mFragment;
+    }
+
+    @Override
+    public View getContentView(){
+        return mFragment.getView();
     }
 
     /**

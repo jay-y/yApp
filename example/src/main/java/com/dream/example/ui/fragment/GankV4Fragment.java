@@ -1,21 +1,22 @@
 package com.dream.example.ui.fragment;
 
 import com.dream.example.R;
-import com.dream.example.presenter.TemplateFPresenter;
-import com.dream.example.ui.fragment.base.AppBaseFragment;
+import com.dream.example.presenter.GankPresenter;
+import com.dream.example.ui.fragment.base.AppBaseV4Fragment;
 
 import org.yapp.core.ui.inject.annotation.ContentInject;
 
 /**
- * Description: TemplateFragment模板. <br>
- * Date: 2016/3/15 13:43 <br>
+ * ClassName: GankV4Fragment <br>
+ * Description: 干货组件. <br>
+ * Date: 2015-6-24 下午5:45:52 <br>
  * Author: ysj
  */
-@ContentInject(value = R.layout.fragment_template
-        , presenter = TemplateFPresenter.class)
-public class TemplateFragment extends AppBaseFragment<TemplateFPresenter> {
+@ContentInject(value = R.layout.fragment_gank
+        , presenter = GankPresenter.class)
+public class GankV4Fragment extends AppBaseV4Fragment<GankPresenter> {
     private static final Object lock = new Object();
-    private static TemplateFragment instance;
+    private static GankV4Fragment instance;
 
     /**
      * getInstance:(获取实例). <br>
@@ -25,11 +26,11 @@ public class TemplateFragment extends AppBaseFragment<TemplateFPresenter> {
      * @since JDK 1.7
      * date: 2015-6-24 下午5:48:12 <br>
      */
-    public static TemplateFragment getInstance() {
+    public static GankV4Fragment getInstance() {
         if (instance == null) {
             synchronized (lock) {
                 if (instance == null) {
-                    instance = new TemplateFragment();
+                    instance = new GankV4Fragment();
                 }
             }
         }
@@ -41,8 +42,8 @@ public class TemplateFragment extends AppBaseFragment<TemplateFPresenter> {
      *
      * @return this
      */
-    public static TemplateFragment newInstance() {
-        TemplateFragment fragment = new TemplateFragment();
+    public static GankV4Fragment newInstance() {
+        GankV4Fragment fragment = new GankV4Fragment();
         return fragment;
     }
 

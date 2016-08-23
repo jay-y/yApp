@@ -79,7 +79,7 @@ public abstract class BaseFragment<P extends BaseFragmentPresenter> extends Frag
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initPresenter();
-        mPresenter.onBuild(getActivity());
+        mPresenter.onBuild(getActivity(),this);
         mPresenter.onInit();
         mInject = null;
     }

@@ -57,9 +57,9 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         String title = getContent().getIntent().getStringExtra(EXTRA_TITLE);
 
         if (!TextUtils.isEmpty(title)) {
-            setTitle(title, true);
+            setTitle(title);
         } else {
-            setTitle(getContent().getString(R.string.app_name), true);
+            setTitle(getContent().getString(R.string.app_name));
         }
         attachMenu(mMenuLayout);
         JavaScriptUtil javaScriptUtil = new JavaScriptUtil(getContent());
@@ -104,12 +104,11 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case android.R.id.home:
-                if (mWebContent.canGoBack()) {
-                    mWebContent.goBack();
-                    return true;
-                }
-                break;
+//            case android.R.id.home:
+//                if (mWebContent.canGoBack()) {
+//                    mWebContent.goBack();
+//                    return true;
+//                }
             case R.id.action_copy_url:
                 String copyDone = getContent().getString(R.string.toast_copy_done);
                 SynUtils.copyToClipBoard(getContent(), mWebContent.getUrl(), copyDone);
@@ -147,21 +146,6 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
     @Override
     public void onRefreshStarted() {
         mWebContent.reload();
-    }
-
-    @Override
-    public void loadData() {
-
-    }
-
-    @Override
-    public void loadMoreData() {
-
-    }
-
-    @Override
-    public void hasNoMoreData() {
-
     }
 
     @Override

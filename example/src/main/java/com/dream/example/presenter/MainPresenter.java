@@ -25,7 +25,7 @@ import com.dream.example.data.support.AppConsts;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.DebugActivity;
 import com.dream.example.ui.activity.SplashActivity;
-import com.dream.example.ui.fragment.NewsV4Fragment;
+import com.dream.example.ui.fragment.GankV4Fragment;
 import com.dream.example.utils.IntentUtil;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.IMainView;
@@ -62,7 +62,7 @@ public class MainPresenter extends
     private List<TextView> mSelectList;
     private ArrayList<Fragment> mFragmentList;
     private FragmentFactory mFactory = FragmentFactory.getInstance();
-    private int[] icons = {R.drawable.bottom_my_selector, R.drawable.bottom_contacts_selector};
+    private int[] icons = {R.drawable.bottom_app_selector, R.drawable.bottom_and_selector, R.drawable.bottom_ios_selector, R.drawable.bottom_bucket_selector};
 
     public FragmentFactory getFragmentFactory() {
         return mFactory;
@@ -89,8 +89,11 @@ public class MainPresenter extends
 //        if (3 == App.getStatus()) {
 //            IntentUtil.gotoWebActivity(this, RequestFactory.newVersionInfo(app.getVersionName()), getString(R.string.app_update));
 //        }
-        mFactory.registerFragment(R.string.fragment_my, NewsV4Fragment.newInstance());
-//        mFactory.registerFragment(R.string.fragment_contacts, TemplateV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_app, GankV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_and, GankV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_ios, GankV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_boon, GankV4Fragment.newInstance());
+//        mFactory.registerFragment(R.string.fragment_bucket, NewsV4Fragment.newInstance());
         if (mFactory.getCount() <= 0) return;
         mFragmentList = new ArrayList<>();
         mSelectList = new ArrayList<>();
@@ -108,21 +111,23 @@ public class MainPresenter extends
                     0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             Integer resId = icons.length > i ? icons[i] : icons[0];
             Drawable drawable = getContent().getResources().getDrawable(resId);
-            drawable.setBounds(0, 0, 80, 80);
+//            drawable.setBounds(0, 0, 80, 80);
+            drawable.setBounds(0, 0, 90, 90);
             view.setCompoundDrawables(null, drawable, null, null);
             view.setBackground(getContent().getResources().getDrawable(R.drawable.tabs_btn_selector));
             view.setGravity(Gravity.CENTER);
-            view.setPadding(15, 15, 15, 10);
             view.setLayoutParams(params);
+            view.setPadding(15, 10, 15, 5);
+//            view.setPadding(15, 20, 15, 10);
+            view.setTextColor(Color.BLACK);
+            view.setTextSize(10);
+            view.setText(id);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setTabSelection(x);
                 }
             });
-            view.setTextColor(Color.BLACK);
-            view.setTextSize(14);
-            view.setText(id);
             addTabView(view);
             mSelectList.add(view);
         }
@@ -166,11 +171,6 @@ public class MainPresenter extends
         if (menuId < 0) return true;
         getContent().getMenuInflater().inflate(menuId, menu);
         mMenu = menu;
-        if (null != mMenu) {
-            for (int i = 0; i < mMenu.size(); i++) {
-                mMenu.getItem(i).setVisible(false);
-            }
-        }
         if (mFactory.getCount() > 0) {
             mPageListAdapter.onPageSelected(0);
         }
@@ -181,7 +181,7 @@ public class MainPresenter extends
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_share:
+            case R.id.action_info:
                 showDialog(
                         "GitHub: https://github.com/Jay-Y\n" +
                                 "\n" +
@@ -216,13 +216,11 @@ public class MainPresenter extends
      */
     @Override
     public void clearSelection() {
-        if (null != mMenu) {
-            for (int i = 0; i < mMenu.size(); i++) {
-                if (mMenu.getItem(i).isVisible()) {
-                    mMenu.getItem(i).setVisible(false);
-                }
-            }
-        }
+        mMenu.findItem(R.id.action_info).setVisible(false);
+        mMenu.findItem(R.id.action_search).setVisible(false);
+        mMenu.findItem(R.id.action_share).setVisible(false);
+        mMenu.findItem(R.id.action_save).setVisible(false);
+        mMenu.findItem(R.id.action_settings).setVisible(false);
         for (TextView tv : mSelectList) {
             tv.setSelected(false);
         }
@@ -250,20 +248,14 @@ public class MainPresenter extends
     public void setTabSelection(int index) {
         if (getFragmentFactory().getCount() <= 0) return;
         int resId = getFragmentFactory().getId(index);
-        setTitle(getContent().getString(resId), false);
+        setTitle(getContent().getString(resId), true,R.mipmap.ic_launcher);
         clearSelection();
         mViewPager.setCurrentItem(index, true);
         mSelectList.get(index).setSelected(true);
         switch (resId) {
-            case R.string.fragment_my:
+            case R.string.fragment_app:
                 if (null != mMenu) {
-                    mMenu.findItem(R.id.action_search).setVisible(true);
-                    mMenu.findItem(R.id.action_share).setVisible(true);
-                }
-                break;
-            case R.string.fragment_contacts:
-                if (null != mMenu) {
-                    mMenu.findItem(R.id.action_save).setVisible(true);
+                    mMenu.findItem(R.id.action_info).setVisible(true);
                 }
                 break;
         }
@@ -283,9 +275,9 @@ public class MainPresenter extends
                 }
             });
         } else if (id == R.id.nav_safe) {
-//            IntentUtil.gotoWebActivity(this, AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getString(R.string.nav_safe));
+            IntentUtil.gotoWebActivity(getContent(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContent().getString(R.string.nav_safe));
         } else if (id == R.id.nav_help) {
-//            IntentUtil.gotoWebActivity(this, AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getString(R.string.my_about));
+            IntentUtil.gotoWebActivity(getContent(), AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getContent().getString(R.string.nav_help));
         }
         if (null != mDrawer) mDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -329,19 +321,7 @@ public class MainPresenter extends
          */
         @Override
         public void onPageSelected(int arg0) {
-            int index = arg0;
-//            TextView mTvDialog = null;
-//            if (arg0 > 0 && arg0 < getFragmentList().size()
-//                    && getFragmentFactory().getV4Fragment(getFragmentFactory().getId(arg0 - 1)) instanceof ContactsV4Fragment) {
-//                index = arg0 - 1;
-//                mTvDialog = ((ContactsV4Fragment) getFragmentFactory().getV4Fragment(getFragmentFactory().getId(index))).getSideBar().getTextDialog();
-//            } else if (getFragmentFactory().getV4Fragment(getFragmentFactory().getId(arg0)) instanceof ContactsV4Fragment) {
-//                mTvDialog = ((ContactsV4Fragment) getFragmentFactory().getV4Fragment(getFragmentFactory().getId(index))).getSideBar().getTextDialog();
-//            }
-//            if (null != mTvDialog) {
-//                mTvDialog.setVisibility(View.GONE);
-//            }
-            setTabSelection(index);
+            setTabSelection(arg0);
         }
     }
 }

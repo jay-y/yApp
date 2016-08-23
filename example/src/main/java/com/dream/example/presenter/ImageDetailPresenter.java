@@ -58,7 +58,7 @@ public class ImageDetailPresenter extends
                 display(mUrlList, 5);
                 onPageSelected(index);
             }
-            setTitle(getContent().getString(R.string.title_activity_img), true);
+            setTitle(getContent().getString(R.string.title_activity_img));
         } else {
             getContent().finish();
         }

@@ -2,6 +2,9 @@ package com.dream.example.view;
 
 import android.support.annotation.CheckResult;
 
+import rx.Observable;
+import rx.Subscriber;
+
 /**
  * Description: ISwipeRefreshView. <br>
  * Date: 2016/3/14 18:36 <br>
@@ -38,18 +41,13 @@ public interface ISwipeRefreshView extends IAppBaseView {
     boolean isRefreshing();
 
     /**
-     * load data
+     * request for initialization
+     *
+     * @return
      */
-    void loadData();
+    Observable getObservable();
 
-    /**
-     * load more data to history list(load more)
-     */
-    void loadMoreData();
+    void request(Subscriber subscriber);
 
-    /**
-     * no more data for show and this condition is hard to appear,it need you scroll main view long time
-     * I think it has no body do it like this ,even though，I deal this condition also, In case someone does it.
-     */
-    void hasNoMoreData();
+    void cancelRequest();
 }

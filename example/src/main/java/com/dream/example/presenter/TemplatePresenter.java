@@ -12,11 +12,11 @@ public class TemplatePresenter extends AppBaseActivityPresenter implements ITemp
 
     @Override
     public void onInit() {
-        // TODO Initialization UI, monitor, data, etc.
+        // TODO UI, monitor, data, etc for initialization.
     }
 
     @Override
     public void onClear(){
-        // TODO Clear
+        // TODO clear
     }
 }

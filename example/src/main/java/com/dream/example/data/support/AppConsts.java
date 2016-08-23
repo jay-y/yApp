@@ -67,7 +67,7 @@ public class AppConsts {
         public static String MAIN_HOST = "http://mobile.safehy.com/";
         public static String MAIN_HOST_PRIMARY = "http://mobile.safehy.com";
         // Gank地址
-        public static String GANK_HOST = "https://gank.io/api/";
+        public static String GANK_HOST = "https://gank.io/";
         // 163地址
         public static String NEWS_HOST = "http://c.m.163.com/";
 
@@ -78,8 +78,16 @@ public class AppConsts {
         // 服务条款
         public static final String WEBSITES_TERMSOFSERVICE = MAIN_HOST+"termsOfService";
 
+        public static final String PARAM_TYPE_APP = "App";
+
+        public static final String PARAM_TYPE_IOS = "iOS";
+
+        public static final String PARAM_TYPE_AND = "Android";
+
+        public static final String PARAM_TYPE_GIRL = "福利";
+
         // 根据属性获取指定数量数据(GANK)
-        public static final String API_GANK_DATA_V0="data/{type}/{pagesize}/{page}";
+        public static final String API_GANK_DATA="api/data/{type}/{pageSize}/{pageNo}";
 
         // http://c.m.163.com/nc/article/list/T1348654060988/0-10.html
         public static final String API_NEWS_LIST = "nc/article/list/{id}/{pageNo}-{pageSize}.html";
