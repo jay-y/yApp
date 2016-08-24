@@ -161,7 +161,8 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
      */
     private FilterMenu attachMenu(FilterMenuLayout layout) {
         return new FilterMenu.Builder(getContext())
-                .inflate(R.menu.menu_web_faq)
+                .addItem(android.R.drawable.ic_menu_rotate)
+                .addItem(android.R.drawable.ic_menu_revert)
                 .attach(layout)
                 .withListener(new FilterMenu.OnMenuChangeListener() {
                     @Override
