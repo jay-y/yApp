@@ -55,35 +55,31 @@ public abstract class AppBaseFragmentPresenter extends BaseFragmentPresenter<App
      */
     @Override
     public void showDialog(String msg, String title, Callback.DialogCallback callback) {
-        getContext().getPresenter().showDialog(title, msg, callback);
-    }
-
-    public void showDialog(String msg, String title) {
-        showDialog(msg, title, null);
-    }
-
-    public void showDialog(String msg) {
-        showDialog(msg, null);
+        if (null != getContext().getPresenter())
+            getContext().getPresenter().showDialog(title, msg, callback);
     }
 
     @Override
     public void closeDialog() {
-        getContext().getPresenter().closeDialog();
+        if (null != getContext().getPresenter()) getContext().getPresenter().closeDialog();
     }
 
     @Override
     public void showLoading() {
-        getContext().getPresenter().showLoading();
-    }
-
-    @Override
-    public void closeLoading() {
-        getContext().getPresenter().closeLoading();
+        if (null != getContext().getPresenter()) getContext().getPresenter().showLoading();
     }
 
     @Override
     public boolean isLoading() {
-        return getContext().getPresenter().isLoading();
+        if (null != getContext().getPresenter()) {
+            return getContext().getPresenter().isLoading();
+        }
+        return false;
+    }
+
+    @Override
+    public void closeLoading() {
+        if (null != getContext().getPresenter()) getContext().getPresenter().closeLoading();
     }
 
     /**
