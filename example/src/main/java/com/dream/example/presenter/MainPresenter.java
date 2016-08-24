@@ -89,10 +89,10 @@ public class MainPresenter extends
 //        if (3 == App.getStatus()) {
 //            IntentUtil.gotoWebActivity(this, RequestFactory.newVersionInfo(app.getVersionName()), getString(R.string.app_update));
 //        }
-        mFactory.registerFragment(R.string.fragment_app, GankV4Fragment.newInstance());
-        mFactory.registerFragment(R.string.fragment_and, GankV4Fragment.newInstance());
-        mFactory.registerFragment(R.string.fragment_ios, GankV4Fragment.newInstance());
-        mFactory.registerFragment(R.string.fragment_boon, GankV4Fragment.newInstance());
+        mFactory.registerFragment(R.string.fragment_app, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_and, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_ios, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_boon,new GankV4Fragment());
 //        mFactory.registerFragment(R.string.fragment_bucket, NewsV4Fragment.newInstance());
         if (mFactory.getCount() <= 0) return;
         mFragmentList = new ArrayList<>();

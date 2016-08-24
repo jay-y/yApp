@@ -29,9 +29,4 @@ public class GuideActivity extends AppBaseAppCompatActivity<GuidePresenter> {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_guide;
-    }
 }
