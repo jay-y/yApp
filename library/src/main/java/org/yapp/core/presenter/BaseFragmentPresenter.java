@@ -10,6 +10,7 @@ import org.yapp.core.ui.abase.BaseFragmentPresenterApi;
 import org.yapp.core.ui.activity.BaseAppCompatActivity;
 import org.yapp.core.ui.fragment.BaseFragment;
 import org.yapp.core.ui.inject.ViewInjector;
+import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
 import org.yapp.y;
 
@@ -185,5 +186,51 @@ public abstract class BaseFragmentPresenter<T extends BaseAppCompatActivity, F e
                 getFragment().startActivityForResult(intent, requestCode);
             }
         }, delayed * 1000);
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        getContext().getPresenter().showMsg(msg);
+    }
+
+    @Override
+    public void showError(Throwable throwable) {
+        getContext().getPresenter().showError(throwable);
+    }
+
+    /**
+     * 弹出Dialog
+     *
+     * @param msg
+     * @param title
+     * @param callback
+     */
+    @Override
+    public void showDialog(String msg, String title, Callback.DialogCallback callback) {
+        if (null != getContext().getPresenter())
+            getContext().getPresenter().showDialog(title, msg, callback);
+    }
+
+    @Override
+    public void closeDialog() {
+        if (null != getContext().getPresenter()) getContext().getPresenter().closeDialog();
+    }
+
+    @Override
+    public void showLoading() {
+        if (null != getContext().getPresenter()) getContext().getPresenter().showLoading();
+    }
+
+    @Override
+    public boolean isLoading() {
+        if (null != getContext().getPresenter()) {
+            return getContext().getPresenter().isLoading();
+        }
+        return false;
+    }
+
+    @Override
+    public void closeLoading() {
+        if (null != getContext().getPresenter()) getContext().getPresenter().closeLoading();
     }
 }

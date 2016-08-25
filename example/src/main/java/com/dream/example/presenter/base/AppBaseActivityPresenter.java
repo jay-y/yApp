@@ -163,17 +163,6 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
         super.onDestroy();
     }
 
-    @Override
-    public void showMsg(String msg) {
-        Toast.showMessageForButtomShort(msg);
-    }
-
-    @Override
-    public void showError(Throwable throwable) {
-        Log.e(throwable.getMessage(), throwable);
-        Toast.showMessageForButtomShort(throwable.getMessage());
-    }
-
     /**
      * 弹出Dialog
      *

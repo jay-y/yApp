@@ -108,52 +108,6 @@ public abstract class AppBaseV4FragmentPresenter extends BaseV4FragmentPresenter
         super.onDestroy();
     }
 
-    @Override
-    public void showMsg(String msg) {
-        getContext().getPresenter().showMsg(msg);
-    }
-
-    @Override
-    public void showError(Throwable throwable) {
-        getContext().getPresenter().showError(throwable);
-    }
-
-    /**
-     * 弹出Dialog
-     *
-     * @param msg
-     * @param title
-     * @param callback
-     */
-    @Override
-    public void showDialog(String msg, String title, Callback.DialogCallback callback) {
-        if (null != getContext().getPresenter())
-            getContext().getPresenter().showDialog(title, msg, callback);
-    }
-
-    @Override
-    public void closeDialog() {
-        if (null != getContext().getPresenter()) getContext().getPresenter().closeDialog();
-    }
-
-    @Override
-    public void showLoading() {
-        if (null != getContext().getPresenter()) getContext().getPresenter().showLoading();
-    }
-
-    @Override
-    public boolean isLoading() {
-        if (null != getContext().getPresenter()) {
-            return getContext().getPresenter().isLoading();
-        }
-        return false;
-    }
-
-    @Override
-    public void closeLoading() {
-        if (null != getContext().getPresenter()) getContext().getPresenter().closeLoading();
-    }
-
     private void initToolBar() {
         if (null == mToolbar) mToolbar = (Toolbar) getContext().findViewById(R.id.toolbar);
         if (null == mTitle) mTitle = (TextView) getContext().findViewById(R.id.toolbar_title);

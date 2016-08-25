@@ -3,12 +3,14 @@ package org.yapp.core.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import org.yapp.core.Application;
 import org.yapp.core.ui.abase.BaseActivityPresenterApi;
 import org.yapp.core.ui.activity.BaseAppCompatActivity;
 import org.yapp.core.ui.inject.ViewInjector;
+import org.yapp.utils.Callback;
+import org.yapp.utils.Log;
+import org.yapp.utils.Toast;
 import org.yapp.y;
 
 /**
@@ -16,8 +18,8 @@ import org.yapp.y;
  * Date: 2016/3/14 16:03 <br>
  * Author: ysj
  */
-public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A extends Application>
-        extends BasePresenter<T,A> implements BaseActivityPresenterApi {
+public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity, A extends Application>
+        extends BasePresenter<T, A> implements BaseActivityPresenterApi {
 
     /**
      * 构建
@@ -25,7 +27,7 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
      * @param context activity context
      */
     @Override
-    public void onBuild(Context context){
+    public void onBuild(Context context) {
         super.onBuild(context);
         ViewInjector.inject(getContext(), this);
     }
@@ -159,5 +161,56 @@ public abstract class BaseActivityPresenter<T extends BaseAppCompatActivity,A ex
                 getContext().startActivityForResult(intent, requestCode);
             }
         }, delayed * 1000);
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        Toast.showMessageForButtomShort(msg);
+    }
+
+    @Override
+    public void showError(Throwable throwable) {
+        Log.e(throwable.getMessage(), throwable);
+        Toast.showMessageForButtomShort(throwable.getMessage());
+    }
+
+    /**
+     * 弹出Dialog
+     *
+     * @param msg
+     * @param title
+     * @param callback
+     */
+    @Override
+    public void showDialog(String msg, String title, final Callback.DialogCallback callback) {
+        Toast.showMessageForCenterLong(msg);
+    }
+
+    public void showDialog(String msg, String title) {
+        showDialog(msg, title, null);
+    }
+
+    public void showDialog(String msg) {
+        showDialog(msg, null);
+    }
+
+    @Override
+    public void closeDialog() {
+        // do nothing
+    }
+
+    @Override
+    public void showLoading() {
+        Toast.showMessageForCenterLong("正在加载...");
+    }
+
+    @Override
+    public void closeLoading() {
+        // do nothing
+    }
+
+    @Override
+    public boolean isLoading() {
+        return false;
     }
 }
