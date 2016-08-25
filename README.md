@@ -1,9 +1,9 @@
 # About Project
-一个Android项目公共库，使用请参考Example.
-(An Android project common library,please refer to Example.)
+一个Android项目公共库，使用请参考app.
+(An Android project common library,please refer to app.)
 #### When you use Gradle to build a dependency can be added to:
 ```javascript
-compile 'com.github.jay-y:yapp:2.0.+'
+compile 'com.github.jay-y:yapp:2.0.5'
 ```
 ## About Me
 #### GitHub: https://github.com/Jay-Y
