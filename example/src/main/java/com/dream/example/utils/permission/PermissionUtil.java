@@ -22,7 +22,7 @@ import java.util.List;
  * @since JDK 1.7
  */
 public class PermissionUtil {
-    public static final int PERMISSIONS_REQUEST_CODE= 1314520;
+    public static final int PERMISSIONS_REQUEST_CODE = 1314520;
 
     // 定位需要权限
     public static final String[] PERMISSIONS_GROUP_LOACATION = {
@@ -133,6 +133,23 @@ public class PermissionUtil {
         return new PermissionUtil(fragment);
     }
 
+    /**
+     * 添加请求/回调响应Code,默认PERMISSIONS_REQUEST_CODE
+     *
+     * @param requestCode
+     * @return
+     */
+    public PermissionUtil addRequestCode(int requestCode) {
+        this.mRequestCode = requestCode;
+        return this;
+    }
+
+    /**
+     * 指定需要权限
+     *
+     * @param permissions
+     * @return
+     */
     public PermissionUtil permissions(String... permissions) {
         this.mPermissions = permissions;
         return this;
@@ -141,22 +158,27 @@ public class PermissionUtil {
     public PermissionUtil permissions(String[]... permissionsBase) {
         List<String> permissionList = new ArrayList<>();
         for (String[] permissions : permissionsBase) {
-            permissionList.addAll(findpermissionList(getContext(object), permissions));
+            permissionList.addAll(findPermissionList(getContext(object), permissions));
         }
         this.mPermissions = permissionList.toArray(new String[permissionList.size()]);
         return this;
     }
 
-    public PermissionUtil addRequestCode(int requestCode) {
-        this.mRequestCode = requestCode;
-        return this;
-    }
-
+    /**
+     * 请求权限
+     */
     @TargetApi(value = Build.VERSION_CODES.M)
     public void request() {
         requestPermissions(object, mRequestCode, mPermissions);
     }
 
+    /**
+     * 直接请求需要权限
+     *
+     * @param obj
+     * @param requestCode
+     * @param permissions
+     */
     public static void needPermission(Object obj, int requestCode, String[] permissions) {
         requestPermissions(obj, requestCode, permissions);
     }
@@ -204,7 +226,7 @@ public class PermissionUtil {
         try {
             if (executeMethod != null) {
                 if (!executeMethod.isAccessible()) executeMethod.setAccessible(true);
-                executeMethod.invoke(obj,new  Object[]{});
+                executeMethod.invoke(obj, new Object[]{});
             }
         } catch (Exception e) {
             executeMethod = null;
@@ -221,7 +243,7 @@ public class PermissionUtil {
     }
 
     @TargetApi(value = Build.VERSION_CODES.M)
-    public static List<String> findpermissionList(Context context, String... permission) {
+    public static List<String> findPermissionList(Context context, String... permission) {
         List<String> denyPermissions = new ArrayList<>();
         for (String value : permission) {
             if (context.checkSelfPermission(value) != PackageManager.PERMISSION_GRANTED) {
