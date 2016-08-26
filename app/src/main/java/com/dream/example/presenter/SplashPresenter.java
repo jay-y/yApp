@@ -17,6 +17,7 @@ import com.dream.example.utils.SPUtil;
 import com.dream.example.view.ISplashView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
+import org.yapp.utils.Log;
 import org.yapp.utils.SignalUtil;
 
 /**
@@ -27,6 +28,7 @@ import org.yapp.utils.SignalUtil;
 public class SplashPresenter extends AppBaseActivityPresenter implements ISplashView {
     @ViewInject(R.id.splash_img_bg)
     private ImageView mImgBg;
+
 
     @Override
     public void onInit() {
