@@ -34,7 +34,7 @@ public abstract class BaseFragmentPagerAdapter extends FragmentPagerAdapter impl
 	}
 
 	public BaseFragmentPagerAdapter(FragmentManager fm,ViewPager viewPager,List<Fragment> pagerList) {
-		super(fm);
+		this(fm);
 		this.mPagerList = pagerList;
 		this.mViewPager = viewPager;
 	}

@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/item_iv_photo"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp21"
-        android:maxHeight="@dimen/dp338"
-        android:adjustViewBounds="true"
-        android:src="@drawable/pic_load"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/item_tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_iv_photo"
-        android:gravity="center"
-        android:padding="@dimen/dp21"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp40"
-        android:textStyle="bold"
-        android:background="@color/deep_grey"
-        tools:text="2015/11/11"/>
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/item_iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pic_load" />
+
+        <TextView
+            android:id="@+id/item_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_iv_photo"
+            android:background="@color/deep_grey"
+            android:gravity="center"
+            android:padding="@dimen/dp21"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp40"
+            android:textStyle="bold"
+            tools:text="2015/11/11" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

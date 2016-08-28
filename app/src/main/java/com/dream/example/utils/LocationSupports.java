@@ -12,11 +12,11 @@ import com.dream.example.App;
 import com.dream.example.data.support.AppConsts;
 import com.dream.example.data.support.GeoGoderSupports;
 import com.dream.example.data.support.HttpFactory;
-import com.dream.example.utils.permission.PermissionUtil;
 
 import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
 import org.yapp.utils.SignalUtil;
+import org.yapp.utils.permission.PermissionUtil;
 import org.yapp.y;
 
 import java.io.UnsupportedEncodingException;

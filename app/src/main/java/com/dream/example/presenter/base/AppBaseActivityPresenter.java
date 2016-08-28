@@ -24,7 +24,6 @@ import org.yapp.core.presenter.BaseActivityPresenter;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Callback;
 import org.yapp.utils.Log;
-import org.yapp.utils.Toast;
 
 /**
  * Description: App Activity主持层抽象基类. <br>
@@ -115,10 +114,10 @@ public abstract class AppBaseActivityPresenter extends BaseActivityPresenter<App
         if (strTitle.length() > 10) strTitle = strTitle.substring(0, 10) + "...";
         if (null != mTitle) {
             mTitle.setText(strTitle); //设置自定义标题文字
+            getContext().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
         } else if (null != mToolbar) {
             mToolbar.setTitle(strTitle);
         }
-        getContext().getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏Toolbar标题
         getContext().getSupportActionBar().setDisplayShowHomeEnabled(isShowHome);
         getContext().getSupportActionBar().setDisplayHomeAsUpEnabled(isShowHome);
         if (resId != -1) {

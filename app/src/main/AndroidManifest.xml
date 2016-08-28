@@ -95,6 +95,13 @@
             android:screenOrientation="portrait">
             <!-- 图片详情 -->
         </activity>
+
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <!-- 关于应用 -->
+        </activity>
     </application>
 
 </manifest>

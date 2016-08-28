@@ -1,0 +1,10 @@
+<android.support.design.widget.TabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lyt_select_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    app:tabIndicatorColor="@color/base_title"
+    app:tabMode="scrollable"
+    app:tabTextColor="@color/base_tv">
+</android.support.design.widget.TabLayout>

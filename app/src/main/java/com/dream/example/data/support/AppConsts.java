@@ -84,6 +84,14 @@ public class AppConsts {
 
         public static final String PARAM_TYPE_AND = "Android";
 
+        public static final String PARAM_TYPE_FRONT = "前端";
+
+        public static final String PARAM_TYPE_EXPAND = "拓展资源";
+
+        public static final String PARAM_TYPE_RECOMMEND = "瞎推荐";
+
+        public static final String PARAM_TYPE_REST = "休息视频";
+
         public static final String PARAM_TYPE_GIRL = "福利";
 
         // 根据属性获取指定数量数据(GANK)

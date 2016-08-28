@@ -8,6 +8,14 @@
     android:orientation="horizontal"
     tools:background="@color/white">
 
+    <!--<ImageView-->
+        <!--android:id="@+id/item_iv_lable"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="@dimen/dp10"-->
+        <!--android:src="@mipmap/ic_launcher"/>-->
+
+    <!--android:layout_toRightOf="@id/item_iv_lable"-->
     <TextView
         android:id="@+id/item_tv_title"
         android:layout_width="match_parent"

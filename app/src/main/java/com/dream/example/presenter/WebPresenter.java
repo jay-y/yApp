@@ -29,6 +29,9 @@ import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Log;
 import org.yapp.utils.SignalUtil;
 import org.yapp.utils.Toast;
+import org.yapp.utils.share.ShareApiEnum;
+import org.yapp.utils.share.ShareTypeEnum;
+import org.yapp.utils.share.ShareUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -163,6 +166,7 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
         return new FilterMenu.Builder(getContext())
                 .addItem(android.R.drawable.ic_menu_rotate)
                 .addItem(android.R.drawable.ic_menu_revert)
+                .addItem(android.R.drawable.ic_menu_share)
                 .attach(layout)
                 .withListener(new FilterMenu.OnMenuChangeListener() {
                     @Override
@@ -177,6 +181,18 @@ public class WebPresenter extends AppSwipeRefreshActivityPresenter implements IW
                                 } else {
                                     // do nothing
                                 }
+                                break;
+                            case 2:
+                                String url = getContext().getIntent().getStringExtra(EXTRA_URL);
+                                String title = getContext().getIntent().getStringExtra(EXTRA_TITLE);
+                                ShareUtil.with(getContext())
+                                        .type(ShareTypeEnum.TEXT)
+                                        .api(ShareApiEnum.QQ)
+                                        .setTitle(getContext().getString(R.string.app_name))
+                                        .setUrl(url)
+                                        .setText(title)
+                                        .setDescription(title)
+                                        .send();
                                 break;
                         }
                     }

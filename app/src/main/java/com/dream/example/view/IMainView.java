@@ -1,9 +1,6 @@
 package com.dream.example.view;
 
 import android.view.KeyEvent;
-import android.view.View;
-
-import org.yapp.core.view.IBaseView;
 
 /**
  * Description: IMainView. <br>
@@ -12,11 +9,11 @@ import org.yapp.core.view.IBaseView;
  */
 public interface IMainView extends IAppBaseView {
 
-    void addTabView(View view);
+//    void addTabView(View view);
 
     void initPagerView();
 
-    void setTabSelection(int index);
+//    void setTabSelection(int index);
 
     void clearSelection();
 

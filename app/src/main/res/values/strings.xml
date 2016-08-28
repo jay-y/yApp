@@ -1,6 +1,6 @@
 <resources>
     <!-- String related to public -->
-    <string name="app_name">Example</string>
+    <string name="app_name">百阅</string>
     <string name="app_update">应用更新</string>
     <string name="app_website">http://www.safehy.com</string>
     <string name="data_no_more">数据见底了,没有更多啦!</string>
@@ -14,18 +14,23 @@
     <string name="test">测试</string>
 
     <!-- String related to nav -->
+    <string name="nav_app">关于应用</string>
+    <string name="nav_about">关于我们</string>
     <string name="nav_safe">安全中心</string>
     <string name="nav_help">帮助答疑</string>
-    <string name="nav_about">关于我们</string>
     <string name="nav_exit">退出应用</string>
 
     <!-- Strings related to main -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="fragment_app">程序</string>
+    <string name="fragment_app">App</string>
     <string name="fragment_and">Android</string>
     <string name="fragment_ios">IOS</string>
     <string name="fragment_boon">福利</string>
+    <string name="fragment_front">前端</string>
+    <string name="fragment_expand">拓展资源</string>
+    <string name="fragment_recommend">瞎推荐</string>
+    <string name="fragment_rest">休息视频</string>
     <string name="fragment_bucket">综合</string>
     <string name="fragment_template">模板</string>
     <string name="action_scan">扫描</string>
@@ -56,4 +61,27 @@
     <string name="error_incorrect_password">密码错误</string>
     <string name="error_field_required">输入项不能为空</string>
     <string name="permission_rationale">"联系方式需要邮箱完成确认."</string>
+
+    <!-- Strings related to about -->
+    <string name="title_activity_about">关于应用</string>
+    <string name="about_thanks">致谢:代码家/Gank开发者们</string>
+    <string name="about_open_source">com.android.support:appcompat-v7:24.+\n
+        com.android.support:design:24.+\n
+        com.github.jay-y:yapp:2.0.6\n
+        com.android.support:cardview-v7:24.+\n
+        com.github.jay-y:permission:1.0.0\n
+        com.github.jay-y:share:1.0.3\n
+        io.reactivex:rxandroid:1.+\n
+        com.squareup.okhttp3:okhttp:3.+\n
+        com.squareup.retrofit2:retrofit:2.+\n
+        com.squareup.retrofit2:converter-gson:2.+\n
+        com.squareup.retrofit2:adapter-rxjava:2.+\n
+        com.squareup.picasso:picasso:2.5.2\n
+        com.github.afollestad.material-dialogs:core:0.8.5.3@aar\n
+        com.linroid.filtermenu:library:0.2.+@aar\n
+        com.github.chrisbanes.photoview:library:1.2.2\n
+        com.mikepenz:iconics-core:2.5.5@aar\n
+        com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar\n
+        com.mikepenz:fontawesome-typeface:4.5.0.1@aar
+    </string>
 </resources>

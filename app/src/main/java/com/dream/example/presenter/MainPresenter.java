@@ -1,12 +1,11 @@
 package com.dream.example.presenter;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,28 +15,26 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.dream.example.App;
 import com.dream.example.R;
 import com.dream.example.data.support.AppConsts;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
+import com.dream.example.ui.activity.AboutActivity;
 import com.dream.example.ui.activity.DebugActivity;
 import com.dream.example.ui.activity.SplashActivity;
+import com.dream.example.ui.adapter.MainAdapter;
 import com.dream.example.ui.fragment.GankV4Fragment;
 import com.dream.example.utils.IntentUtil;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.IMainView;
 
-import org.yapp.core.ui.adapter.BaseFragmentPagerAdapter;
 import org.yapp.core.ui.fragment.FragmentFactory;
 import org.yapp.core.ui.inject.annotation.ViewInject;
 import org.yapp.utils.Callback;
 import org.yapp.y;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Description: MainPresenter. <br>
@@ -45,7 +42,7 @@ import java.util.List;
  * Author: ysj
  */
 public class MainPresenter extends
-        AppBaseActivityPresenter implements IMainView, NavigationView.OnNavigationItemSelectedListener {
+        AppBaseActivityPresenter implements IMainView, TabLayout.OnTabSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     @ViewInject(R.id.drawer_layout)
     private DrawerLayout mDrawer;
@@ -54,15 +51,21 @@ public class MainPresenter extends
 
     @ViewInject(R.id.main_vp)
     private ViewPager mViewPager;
-    private PageListAdapter mPageListAdapter;
+    private MainAdapter mAdapter;
 
     @ViewInject(R.id.lyt_select_group)
-    private LinearLayout mLytSelect;
+    private TabLayout mViewTabs;
 
-    private List<TextView> mSelectList;
     private ArrayList<Fragment> mFragmentList;
     private FragmentFactory mFactory = FragmentFactory.getInstance();
-    private int[] icons = {R.drawable.bottom_app_selector, R.drawable.bottom_and_selector, R.drawable.bottom_ios_selector, R.drawable.bottom_bucket_selector};
+    private int[] icons = {R.drawable.bottom_more_selector
+            , R.drawable.bottom_one_selector
+            , R.drawable.bottom_one_selector
+            , R.drawable.bottom_one_selector
+            , R.drawable.bottom_book_selector
+            , R.drawable.bottom_book_selector
+            , R.drawable.bottom_book_selector
+            , R.drawable.bottom_bucket_selector};
 
     public FragmentFactory getFragmentFactory() {
         return mFactory;
@@ -74,7 +77,7 @@ public class MainPresenter extends
 
     @Override
     public void onInit() {
-        if (SPUtil.get(getContext(), AppConsts._ERROR_CODE, 0) == 0) {
+        if ((int) SPUtil.get(getContext(), AppConsts._ERROR_CODE, 0) == 0) {
             FragmentFactory.releaseInstance();
             goThenKill(SplashActivity.class);
             return;
@@ -92,13 +95,15 @@ public class MainPresenter extends
         mFactory.registerFragment(R.string.fragment_app, new GankV4Fragment());
         mFactory.registerFragment(R.string.fragment_and, new GankV4Fragment());
         mFactory.registerFragment(R.string.fragment_ios, new GankV4Fragment());
-        mFactory.registerFragment(R.string.fragment_boon,new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_front, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_expand, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_recommend, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_rest, new GankV4Fragment());
+        mFactory.registerFragment(R.string.fragment_boon, new GankV4Fragment());
 //        mFactory.registerFragment(R.string.fragment_bucket, NewsV4Fragment.newInstance());
         if (mFactory.getCount() <= 0) return;
         mFragmentList = new ArrayList<>();
-        mSelectList = new ArrayList<>();
         for (int i = 0; i < mFactory.getCount(); i++) {
-            final int x = i;
             int id = mFactory.getId(i);
             Bundle data = new Bundle();
             data.putInt(AppConsts._ID, id);
@@ -106,30 +111,6 @@ public class MainPresenter extends
             Fragment item = mFactory.getV4Fragment(id);
             item.setArguments(data);
             mFragmentList.add(item);
-            TextView view = new TextView(getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-            Integer resId = icons.length > i ? icons[i] : icons[0];
-            Drawable drawable = getContext().getResources().getDrawable(resId);
-//            drawable.setBounds(0, 0, 80, 80);
-            drawable.setBounds(0, 0, 90, 90);
-            view.setCompoundDrawables(null, drawable, null, null);
-            view.setBackground(getContext().getResources().getDrawable(R.drawable.tabs_btn_selector));
-            view.setGravity(Gravity.CENTER);
-            view.setLayoutParams(params);
-            view.setPadding(15, 10, 15, 5);
-//            view.setPadding(15, 20, 15, 10);
-            view.setTextColor(Color.BLACK);
-            view.setTextSize(10);
-            view.setText(id);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setTabSelection(x);
-                }
-            });
-            addTabView(view);
-            mSelectList.add(view);
         }
         initPagerView();
     }
@@ -171,9 +152,9 @@ public class MainPresenter extends
         if (menuId < 0) return true;
         getContext().getMenuInflater().inflate(menuId, menu);
         mMenu = menu;
-        if (mFactory.getCount() > 0) {
-            mPageListAdapter.onPageSelected(0);
-        }
+        clearSelection();
+        onTabSelected(mViewTabs.getTabAt(0));
+        mMenu.findItem(R.id.action_info).setVisible(true);
         return true;
     }
 
@@ -221,37 +202,29 @@ public class MainPresenter extends
         mMenu.findItem(R.id.action_share).setVisible(false);
         mMenu.findItem(R.id.action_save).setVisible(false);
         mMenu.findItem(R.id.action_settings).setVisible(false);
-        for (TextView tv : mSelectList) {
-            tv.setSelected(false);
-        }
-    }
-
-    @Override
-    public void addTabView(View view) {
-        mLytSelect.addView(view);
     }
 
     @Override
     public void initPagerView() {
-        mPageListAdapter = new PageListAdapter(getContext().getSupportFragmentManager(), mViewPager, getFragmentList());
-        mViewPager.setAdapter(mPageListAdapter);
-        mViewPager.setOffscreenPageLimit(getFragmentList().size());
-        mViewPager.addOnPageChangeListener(mPageListAdapter);
+        mAdapter = new MainAdapter(getContext().getSupportFragmentManager(), mViewPager, getFragmentList());
+        mViewPager.setOffscreenPageLimit(mFactory.getCount());
+        mViewPager.setAdapter(mAdapter);
+        mViewTabs.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+        mViewTabs.addOnTabSelectedListener(this);
+        for (int i = 0; i < mViewTabs.getTabCount(); i++) {
+            int id = mFactory.getId(i);
+            Integer resId = icons.length > i ? icons[i] : icons[0];
+            Drawable drawable = getContext().getResources().getDrawable(resId);
+            mViewTabs.setTag(id);
+            mViewTabs.getTabAt(i).setIcon(drawable);
+            mViewTabs.getTabAt(i).setText(id);
+        }
     }
 
-    /**
-     * setTabSelection:(选择视图). <br>
-     *
-     * @param index
-     */
     @Override
-    public void setTabSelection(int index) {
-        if (getFragmentFactory().getCount() <= 0) return;
-        int resId = getFragmentFactory().getId(index);
-        setTitle(getContext().getString(resId), true,R.mipmap.ic_launcher);
-        clearSelection();
-        mViewPager.setCurrentItem(index, true);
-        mSelectList.get(index).setSelected(true);
+    public void onTabSelected(TabLayout.Tab tab) {
+        int resId = getFragmentFactory().getId(tab.getPosition());
+        setTitle(getContext().getString(resId),true,R.mipmap.ic_launcher);
         switch (resId) {
             case R.string.fragment_app:
                 if (null != mMenu) {
@@ -259,6 +232,15 @@ public class MainPresenter extends
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        clearSelection();
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 
     @Override
@@ -274,6 +256,8 @@ public class MainPresenter extends
 //                    App.getClientDao().save(App.getClient()); // 更新保存客户端缓存
                 }
             });
+        } else if (id == R.id.nav_app) {
+            go(AboutActivity.class);
         } else if (id == R.id.nav_safe) {
             IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContext().getString(R.string.nav_safe));
         } else if (id == R.id.nav_help) {
@@ -299,29 +283,6 @@ public class MainPresenter extends
                     go(DebugActivity.class);
                 }
             });
-        }
-    }
-
-    private class PageListAdapter extends BaseFragmentPagerAdapter {
-
-        public PageListAdapter(FragmentManager fm, ViewPager viewPager, List<Fragment> pagerList) {
-            super(fm, viewPager, pagerList);
-        }
-
-        /**
-         * @see android.support.v4.view.ViewPager.OnPageChangeListener#onPageScrolled(int,
-         * float, int)
-         */
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        /**
-         * @see android.support.v4.view.ViewPager.OnPageChangeListener#onPageSelected(int)
-         */
-        @Override
-        public void onPageSelected(int arg0) {
-            setTabSelection(arg0);
         }
     }
 }

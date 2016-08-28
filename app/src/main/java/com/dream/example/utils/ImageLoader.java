@@ -18,8 +18,8 @@ import org.yapp.y;
  * Author: ysj
  */
 public class ImageLoader {
-    public static int reWidth = 100;
-    public static int reHeight = 100;
+    public static int reWidth = 200;
+    public static int reHeight = 200;
     public static Bitmap.Config reConfig = Bitmap.Config.RGB_565;
 
     /**

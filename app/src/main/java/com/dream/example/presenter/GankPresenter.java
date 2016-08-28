@@ -76,6 +76,18 @@ public class GankPresenter extends AppSwipeRefreshV4FragmentPresenter implements
             case R.string.fragment_ios:
                 type = AppConsts.ServerConfig.PARAM_TYPE_IOS;
                 break;
+            case R.string.fragment_front:
+                type = AppConsts.ServerConfig.PARAM_TYPE_FRONT;
+                break;
+            case R.string.fragment_expand:
+                type = AppConsts.ServerConfig.PARAM_TYPE_EXPAND;
+                break;
+            case R.string.fragment_recommend:
+                type = AppConsts.ServerConfig.PARAM_TYPE_RECOMMEND;
+                break;
+            case R.string.fragment_rest:
+                type = AppConsts.ServerConfig.PARAM_TYPE_REST;
+                break;
             case R.string.fragment_boon:
                 mAdapter = new GirlV4FAdapter(getContext());
                 type = AppConsts.ServerConfig.PARAM_TYPE_GIRL;
