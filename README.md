@@ -3,7 +3,7 @@
 (An Android project common library,please refer to app.)
 #### When you use Gradle to build a dependency can be added to:
 ```javascript
-compile 'com.github.jay-y:yapp:2.0.5'
+compile 'com.github.jay-y:yapp:2.0.6'
 ```
 ## About Me
 #### GitHub: https://github.com/Jay-Y
