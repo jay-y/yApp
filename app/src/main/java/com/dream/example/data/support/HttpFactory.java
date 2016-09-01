@@ -46,7 +46,7 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
  * Author: ysj
  */
 public class HttpFactory {
-    public static final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
+    public static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").serializeNulls().create();
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36";
 
     public static String HOST = AppConsts.ServerConfig.MAIN_HOST;
@@ -113,7 +113,7 @@ public class HttpFactory {
             // 适配器
             Retrofit serviceAdapter = new Retrofit.Builder()
                     .baseUrl(host)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(GsonConverterFactory.create(GSON))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(mClient)
                     .build();

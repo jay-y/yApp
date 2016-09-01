@@ -12,12 +12,10 @@ import com.dream.example.data.support.HttpFactory;
 import com.dream.example.presenter.base.AppBaseActivityPresenter;
 import com.dream.example.ui.activity.GuideActivity;
 import com.dream.example.ui.activity.MainActivity;
-import com.dream.example.ui.activity.base.AppBaseAppCompatActivity;
 import com.dream.example.utils.SPUtil;
 import com.dream.example.view.ISplashView;
 
 import org.yapp.core.ui.inject.annotation.ViewInject;
-import org.yapp.utils.Log;
 import org.yapp.utils.SignalUtil;
 
 /**

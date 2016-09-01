@@ -56,9 +56,6 @@ public class y {
         private static TaskManager mTaskManager;
         private static ExceptionManager mExceptionManager;
 
-        private Core() {
-        }
-
         /**
          * init:(初始化). <br>
          *
@@ -78,6 +75,9 @@ public class y {
 
         public static void setExceptionManager(ExceptionManager exceptionManager) {
             Core.mExceptionManager = exceptionManager;
+        }
+
+        private Core() {
         }
     }
 }

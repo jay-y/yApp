@@ -26,11 +26,11 @@
     <string name="fragment_app">App</string>
     <string name="fragment_and">Android</string>
     <string name="fragment_ios">IOS</string>
-    <string name="fragment_boon">福利</string>
     <string name="fragment_front">前端</string>
-    <string name="fragment_expand">拓展资源</string>
-    <string name="fragment_recommend">瞎推荐</string>
+    <string name="fragment_expand">学习拓展</string>
+    <string name="fragment_recommend">推荐资源</string>
     <string name="fragment_rest">休息视频</string>
+    <string name="fragment_boon">写真欣赏</string>
     <string name="fragment_bucket">综合</string>
     <string name="fragment_template">模板</string>
     <string name="action_scan">扫描</string>

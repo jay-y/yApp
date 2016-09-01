@@ -258,11 +258,12 @@ public class MainPresenter extends
             });
         } else if (id == R.id.nav_app) {
             go(AboutActivity.class);
-        } else if (id == R.id.nav_safe) {
-            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContext().getString(R.string.nav_safe));
-        } else if (id == R.id.nav_help) {
-            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getContext().getString(R.string.nav_help));
         }
+//        else if (id == R.id.nav_safe) {
+//            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_SECURITYCENTER, getContext().getString(R.string.nav_safe));
+//        } else if (id == R.id.nav_help) {
+//            IntentUtil.gotoWebActivity(getContext(), AppConsts.ServerConfig.WEBSITES_ANSWERQUESTIONS, getContext().getString(R.string.nav_help));
+//        }
         if (null != mDrawer) mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }

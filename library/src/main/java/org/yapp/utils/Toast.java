@@ -81,9 +81,6 @@ public class Toast {
         execute(Gravity.BOTTOM, message, android.widget.Toast.LENGTH_SHORT);
     }
 
-    private Toast() {
-    }
-
     /**
      * execute:(执行). <br>
      *
@@ -114,5 +111,8 @@ public class Toast {
         } catch (Exception e) {
             Log.e(e.getMessage());
         }
+    }
+
+    private Toast() {
     }
 }

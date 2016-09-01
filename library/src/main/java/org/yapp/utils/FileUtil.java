@@ -117,4 +117,7 @@ public class FileUtil {
         }
         return result;
     }
+
+    private FileUtil() {
+    }
 }

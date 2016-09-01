@@ -328,4 +328,7 @@ public class BitmapFactory extends android.graphics.BitmapFactory {
 		Log.d("DEBUG:[BitmapFactory][inSampleSize]"+inSampleSize);
 		return inSampleSize;
 	}
+
+	private BitmapFactory() {
+	}
 }

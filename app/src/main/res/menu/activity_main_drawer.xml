@@ -6,14 +6,14 @@
                 android:id="@+id/nav_app"
                 android:icon="@android:drawable/ic_menu_info_details"
                 android:title="@string/nav_app" />
-            <item
+            <!--<item
                 android:id="@+id/nav_help"
                 android:icon="@android:drawable/ic_menu_help"
                 android:title="@string/nav_about" />
             <item
                 android:id="@+id/nav_safe"
                 android:icon="@android:drawable/ic_menu_add"
-                android:title="@string/nav_safe" />
+                android:title="@string/nav_safe" />-->
             <item
                 android:id="@+id/nav_exit"
                 android:icon="@android:drawable/ic_menu_revert"

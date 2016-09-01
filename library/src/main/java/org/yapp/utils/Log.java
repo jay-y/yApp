@@ -16,9 +16,6 @@ public class Log {
     private static final String EX_NULL = "Error message is empty, please check the program output before this";
     public static String customTagPrefix = "y_log";
 
-    private Log() {
-    }
-
     private static String generateTag() {
         StackTraceElement caller = new Throwable().getStackTrace()[2];
         String tag = "%s.%s(L:%d)";
@@ -115,5 +112,8 @@ public class Log {
 
     private static String check(String msg) {
         return msg != null ? msg : EX_NULL;
+    }
+
+    private Log() {
     }
 }

@@ -18,9 +18,6 @@ import java.io.Writer;
 
 public class IOUtil {
 
-    private IOUtil() {
-    }
-
     public static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
             try {
@@ -137,5 +134,8 @@ public class IOUtil {
             }
         }
         return path.delete();
+    }
+
+    private IOUtil() {
     }
 }

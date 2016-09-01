@@ -133,4 +133,7 @@ public class SignalUtil {
 		}
 		return false;
 	}
+
+	private SignalUtil() {
+	}
 }

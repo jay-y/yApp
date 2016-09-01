@@ -11,26 +11,27 @@ import java.util.Map;
  * Author: ysj
  */
 public class FragmentFactory {
+
     private static final Object lock = new Object();
     private static FragmentFactory instance;
     //Fragment注册集合
-    private Map<Integer,android.app.Fragment> REGISTER = new HashMap<>();
+    private Map<Integer, android.app.Fragment> REGISTER = new HashMap<>();
     //V4Fragment注册集合
-    private Map<Integer,android.support.v4.app.Fragment> REGISTERV4 = new HashMap<>();
+    private Map<Integer, android.support.v4.app.Fragment> REGISTERV4 = new HashMap<>();
     //注册ID
-    private Map<Integer,Integer> REGISTER_ids = new HashMap<>();
+    private Map<Integer, Integer> REGISTER_ids = new HashMap<>();
     //记录条数
     private Integer count = 0;
 
     /**
      * getInstance:(获取实例). <br>
      *
-     * @author ysj
      * @return Fragment
+     * @author ysj
      * @since JDK 1.7
      * date: 2015-6-24 下午5:48:12 <br>
      */
-    public static FragmentFactory getInstance(){
+    public static FragmentFactory getInstance() {
         if (instance == null) {
             synchronized (lock) {
                 if (instance == null) {
@@ -46,7 +47,7 @@ public class FragmentFactory {
      *
      * @return this
      */
-    public static FragmentFactory newInstance(){
+    public static FragmentFactory newInstance() {
         return new FragmentFactory();
     }
 
@@ -57,69 +58,72 @@ public class FragmentFactory {
      * @since JDK 1.7
      * date: 2015-6-24 下午5:50:21 <br>
      */
-    public static void releaseInstance(){
+    public static void releaseInstance() {
         instance = null;
     }
 
-    public android.app.Fragment getFragment(int code){
-        if(null == REGISTER.get(code))
+    public android.app.Fragment getFragment(int code) {
+        if (null == REGISTER.get(code))
             throw new RuntimeException("Please register the Fragment first");
         return REGISTER.get(code);
     }
 
-    public android.support.v4.app.Fragment getV4Fragment(int code){
-        if(null == REGISTERV4.get(code))
+    public android.support.v4.app.Fragment getV4Fragment(int code) {
+        if (null == REGISTERV4.get(code))
             throw new RuntimeException("Please register the Fragment first");
         return REGISTERV4.get(code);
     }
 
     /**
      * 获取注册时使用ID
+     *
      * @param index
      * @return
      */
-    public int getId(int index){
+    public int getId(int index) {
         return REGISTER_ids.get(index);
     }
 
     /**
      * 获取组件注册总数
+     *
      * @return
      */
-    public int getCount(){
+    public int getCount() {
         return count;
     }
 
     /**
      * 注册Fragment
+     *
      * @param code
      * @param fragment
      */
-    public void registerFragment(int code,Object fragment){
-        synchronized (count){
-            if(REGISTER_ids.containsValue(code))
+    public void registerFragment(int code, Object fragment) {
+        synchronized (count) {
+            if (REGISTER_ids.containsValue(code))
                 throw new RuntimeException("Fragment already registered");
-            REGISTER_ids.put(count,code);
-            if(fragment instanceof android.app.Fragment){
+            REGISTER_ids.put(count, code);
+            if (fragment instanceof android.app.Fragment) {
                 REGISTER.put(code, (android.app.Fragment) fragment);
                 count++;
-            }else if(fragment instanceof android.support.v4.app.Fragment){
+            } else if (fragment instanceof android.support.v4.app.Fragment) {
                 REGISTERV4.put(code, (android.support.v4.app.Fragment) fragment);
                 count++;
             }
-            Log.d("Fragment register count:"+count);
+            Log.d("Fragment register count:" + count);
         }
     }
 
     /**
      * 释放
      */
-    public void releaseFragment(){
-        synchronized (count){
-            for (int index = 0;index < count;index++){
+    public void releaseFragment() {
+        synchronized (count) {
+            for (int index = 0; index < count; index++) {
                 REGISTER.remove(REGISTER_ids.get(index));
                 REGISTERV4.remove(REGISTER_ids.get(index));
-				REGISTER_ids.remove(index);
+                REGISTER_ids.remove(index);
             }
             count = 0;
         }
