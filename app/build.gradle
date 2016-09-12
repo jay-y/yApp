@@ -38,7 +38,7 @@ dependencies {
     compile project(':library')
 //    compile 'com.github.jay-y:yapp:2.0.6'
     compile 'com.android.support:cardview-v7:24.+'
-//    compile 'com.github.jay-y:permission:1.0.2'
+    compile 'com.github.jay-y:permission:1.0.2'
     compile 'com.github.jay-y:share:1.0.3'
     compile 'io.reactivex:rxandroid:1.+'
     compile 'com.squareup.okhttp3:okhttp:3.+'
